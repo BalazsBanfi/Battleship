@@ -5,24 +5,19 @@ test("Board is array", () => {
     expect(Array.isArray(board1)).toBe(true);
 });
 
-test("Board ha 10 rows", () => {
+test("Board has 100 cells", () => {
     let board1 = gameboard();
-    expect(board1.length).toBe(10);
-});
-
-test("Board ha 10 columns", () => {
-    let board1 = gameboard();
-    expect(board1[0].length).toBe(10);
+    expect(board1.length).toBe(100);
 });
 
 test("One element of a board is null", () => {
     let board1 = gameboard();
-    expect(board1[4][7]).toBe('47');
+    expect(board1[47]).toBe('null');
 });
 
 
 test("Place ship on random cell", () => {
     let board1 = gameboard();
-    board1.goodPlace('Destroyer', 2);
-    expect(board1[4][7]).toBe('47');
+    board1.goodPlace('Carrier', 5, 0, 33);
+    expect(board1[33]).toBe('Carrier');
 });

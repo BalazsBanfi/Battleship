@@ -75,6 +75,5 @@ export const gameboard = () => {
             })
         }));
     }
-
     return board;
 }
