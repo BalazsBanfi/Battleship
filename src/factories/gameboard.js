@@ -12,47 +12,55 @@ const random = (x) => Math.floor(math.random() * x);
 // Factory function for create board
 export const gameboard = () => {
     const board = [];
+
     // Creating a two-dimensional array with an object in it and fill with value: null
-    for (let i = 0; i < 9; i++) {
-        board[i] = [];
-        for (let j = 0; j < 10; j++) {
-            board[i].push(`${i}${j}`);
-        }
-        board.push(board[i]);
+    for (let i = 0; i < 100; i++) {
+        board.push('null');
     }
 
 
     // Check if the cell are free to place the ship
-    const goodPlace = (shipName, length) => {
+    const goodPlace = (shipType, length, direction, startCoord) => {
         const coordinates = [];
+
         while (coordinates.length < 1) {
-            let row = random(10);
-            let col = random(10);
-            let direction = random(2);
 
             // Check the free cell in a row
-            if (direction === 0 && row + length < 10) {
-                for (let i = col; i < col + length; i++) {
-                    if (typeof board[row][i] === 'number') {
-                        coordinates.push(`${row}${i}`);
-                    } else {
-                        coordinates = [];
-                        break;
+            if (direction === 0) {
+                if (startCoord % 10 + length > 9) {
+                    return false;
+                }
+                if (board.slice(startCoord, startCoord + length).every((x) => x === 'null')) {
+                    for (let i = 0; i < length; i++) {
+                        board[startCoord + i] = shipType;
+                        coordinates.push(startCoord + i);
                     }
+                } else {
+                    return false;
                 }
             }
 
             // Check the free cell in a row
-            if (direction === 1 && col + length < 10) {
-                for (let i = col; i < col + length; i++) {
-                    if (typeof board[i][col] === 'number') {
-                        coordinates.push(`${i}${col}`);
-                    } else {
-                        coordinates = [];
-                        break;
+
+            // Check the free cell in a row
+            if (direction === 0) {
+                if (Math.floor(startCoord / 10) + length > 9) {
+                    return false;
+                }
+                let tempArr = [];
+                for (let i = 0; i < length; i++) {
+                    tempArr.push(board[Math.floor(startCoord / 10) + i * 10]);
+                }
+                if (tempArr.every((x) => x === 'null')) {
+                    for (let i = 0; i < length; i++) {
+                        board[startCoord + (i * 10)] = shipType;
+                        coordinates.push(startCoord + (i * 10));
                     }
+                } else {
+                    return false;
                 }
             }
+
         }
         return coordinates;
     }
