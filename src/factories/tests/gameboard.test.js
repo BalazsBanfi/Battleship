@@ -20,3 +20,9 @@ test("One element of a board is null", () => {
     expect(board1[4][7]).toBe('47');
 });
 
+
+test("Place ship on random cell", () => {
+    let board1 = gameboard();
+    board1.goodPlace('Destroyer', 2);
+    expect(board1[4][7]).toBe('47');
+});
