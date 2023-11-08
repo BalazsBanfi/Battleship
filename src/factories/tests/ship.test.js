@@ -1,0 +1,33 @@
+import { ship } from "../ship";
+
+test("has length property", () => {
+    let ship1 = ship(4);
+    expect(ship1.length).toBe(4);
+});
+
+test("has length property", () => {
+    let ship1 = ship(2);
+    expect(ship1.length).toBe(2);
+});
+
+test("hits the ship", () => {
+    let ship1 = ship(3);
+    ship1.hitOne();
+    ship1.hitOne();
+    expect(ship1.hitCounter()).toBe(2);
+});
+
+test("not yet sinks the ship", () => {
+    let ship1 = ship(3);
+    ship1.hitOne();
+    ship1.hitOne();
+    expect(ship1.isSunk()).toBe(false);
+});
+
+test("sinks the ship", () => {
+    let ship1 = ship(3);
+    ship1.hitOne();
+    ship1.hitOne();
+    ship1.hitOne();
+    expect(ship1.isSunk()).toBeTruthy();
+});
