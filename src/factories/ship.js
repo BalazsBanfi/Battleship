@@ -1,12 +1,12 @@
+// Factory function for add ships
 export const ship = (l) => {
     const length = l;
-    let hit = 0;
-    const hitOne = () => hit++;
-    const hitCounter = () => hit;
+    let hits = 0;
+    const hit = () => hits++;
+    const hitCounter = () => hits;
     const isSunk = () => {
-        if (length == hit) { return true }
+        if (length == hits) { return true }
         return false
     };
-
-    return { length, hitOne, hitCounter, isSunk }
+    return { length, hit, hitCounter, isSunk }
 }
