@@ -25,7 +25,7 @@ export const gameboard = () => {
         }
     }
 
-    board.goodPlace = (startCoord, shipType, length, direction) => {
+    board.placeShip = (startCoord, shipType, length, direction) => {
 
         // Check if the cell are free to place a ship
         let coords = [];
