@@ -18,10 +18,24 @@ export const gameboard = () => {
     for (let i = 0; i < 100; i++) {
         board.cells.push('null');
     }
-    board.goodPlace = (startCoord, shipType, length) => {
-        for (let i = startCoord; i < startCoord + length; i++) {
-            board.cells[i] = shipType;
+    board.goodPlace = (startCoord, shipType, length, direction) => {
+
+        let coords = [];
+        for (let i = 0; i < length * direction; i += direction) {
+            if (board.cells[startCoord + i] && board.cells[startCoord + i] === 'null') { coords.push(board.cells[startCoord + i]) };
         }
+
+        // Check if the ship placed longer than the board edge
+        if ((coords.length === length)
+            && ((direction === 1 && startCoord % 10 + (length * direction) < 10)
+            || (direction === 10 && startCoord + (length * direction) < 100))) {
+
+            // Set the cell value to ship name depends on direction
+            for (let i = startCoord; i < startCoord + (length * direction); i += direction) {
+                board.cells[i] = shipType;
+            }
+        }
+
     }
     return board;
 
