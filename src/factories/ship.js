@@ -10,3 +10,4 @@ export const ship = (l) => {
     };
     return { length, hit, hitCounter, isSunk }
 }
+

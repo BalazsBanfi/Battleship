@@ -17,5 +17,6 @@ test("Board ha 10 columns", () => {
 
 test("One element of a board is null", () => {
     let board1 = gameboard();
-    expect(board1[0][0]).toBe('null');
+    expect(board1[4][7]).toBe('47');
 });
+
