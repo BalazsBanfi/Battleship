@@ -63,3 +63,16 @@ test("Place two ships on the same cells", () => {
     board1.goodPlace(36, 'Destroyer', 2, 10);
     expect(board1.cells[46]).toBe('Carrier');
 });
+
+test("Set cells inactive next to the horizontal ships on cell 23, cell 14:", () => {
+    let board1 = gameboard();
+    board1.goodPlace(23, 'Carrier', 5, 1);
+    expect(board1.cells[14]).toBe('notNull');
+});
+
+
+test("Set cells inactive next to the vertical ships on cell 48, cell 89:", () => {
+    let board1 = gameboard();
+    board1.goodPlace(48, 'Carrier', 5, 10);
+    expect(board1.cells[89]).toBe('notNull');
+});

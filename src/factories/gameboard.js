@@ -18,8 +18,16 @@ export const gameboard = () => {
     for (let i = 0; i < 100; i++) {
         board.cells.push('null');
     }
+
+    const setInactive = (coord) => {
+        if (board.cells[coord]) {
+            board.cells[coord] = 'notNull';
+        }
+    }
+
     board.goodPlace = (startCoord, shipType, length, direction) => {
 
+        // Check if the cell are free to place a ship
         let coords = [];
         for (let i = 0; i < length * direction; i += direction) {
             if (board.cells[startCoord + i] && board.cells[startCoord + i] === 'null') { coords.push(board.cells[startCoord + i]) };
@@ -28,66 +36,48 @@ export const gameboard = () => {
         // Check if the ship placed longer than the board edge
         if ((coords.length === length)
             && ((direction === 1 && startCoord % 10 + (length * direction) < 10)
-            || (direction === 10 && startCoord + (length * direction) < 100))) {
+                || (direction === 10 && startCoord + (length * direction) < 100))) {
 
+            // Horizontal ship set inactive
+            if (direction === 1) {
+                if (startCoord % 10 > 0) {
+                    setInactive(startCoord - 1);
+                    setInactive(startCoord - 11);
+                    setInactive(startCoord + 9);
+                };
+                if (startCoord + length % 10 < 9) {
+                    setInactive(startCoord + length + 1);
+                    setInactive(startCoord + length + 11);
+                    setInactive(startCoord + length - 9);
+                };
+                for (let j = startCoord; j < startCoord + length; j++) {
+                    setInactive(j - 10);
+                    setInactive(j + 10);
+                }
+            }
+
+            // Vertical ship set inactive
+            if (direction === 10) {
+                if (startCoord > 9) {
+                    setInactive(startCoord - 12);
+                    setInactive(startCoord - 11);
+                    setInactive(startCoord - 10);
+                };
+                if (startCoord + (length * 10) < 90) {
+                    setInactive(startCoord + length + 9);
+                    setInactive(startCoord + length + 10);
+                    setInactive(startCoord + length + 11);
+                };
+                for (let j = startCoord; j < startCoord + (length * direction); j++) {
+                    setInactive(j - 10);
+                    setInactive(j + 10);
+                }
+            }
             // Set the cell value to ship name depends on direction
             for (let i = startCoord; i < startCoord + (length * direction); i += direction) {
                 board.cells[i] = shipType;
             }
         }
-
     }
     return board;
-
 };
-/*
-
-// Check if the cell are free to place the ship
-const goodPlace = (shipType, length, direction, startCoord) => {
-    const coordinates = [];
-
-    while (coordinates.length < 1) {
-
-        // Check the free cell in a row
-        if (direction === 0) {
-            if (startCoord % 10 + length > 9) {
-                return false;
-            }
-            if (board.slice(startCoord, startCoord + length).every((x) => x === 'null')) {
-                for (let i = 0; i < length; i++) {
-                    board[startCoord + i] = shipType;
-                    coordinates.push(startCoord + i);
-                }
-            } else {
-                return false;
-            }
-        }
-
-        // Check the free cell in a row
-
-        // Check the free cell in a row
-        if (direction === 1) {
-            if (Math.floor(startCoord / 10) + length > 9) {
-                return false;
-            }
-            let tempArr = [];
-            for (let i = 0; i < length; i++) {
-                tempArr.push(board[Math.floor(startCoord / 10) + i * 10]);
-            }
-            if (tempArr.every((x) => x === 'null')) {
-                for (let i = 0; i < length; i++) {
-                    board[startCoord + (i * 10)] = shipType;
-                    coordinates.push(startCoord + (i * 10));
-                }
-            } else {
-                return false;
-            }
-        }
-
-    }
-    return coordinates;
-}
-
-return board;
-
-*/
