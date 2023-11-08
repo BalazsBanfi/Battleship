@@ -12,22 +12,22 @@ test("has length property", () => {
 
 test("hits the ship", () => {
     let ship1 = ship(3);
-    ship1.hitOne();
-    ship1.hitOne();
+    ship1.hit();
+    ship1.hit();
     expect(ship1.hitCounter()).toBe(2);
 });
 
 test("not yet sinks the ship", () => {
     let ship1 = ship(3);
-    ship1.hitOne();
-    ship1.hitOne();
+    ship1.hit();
+    ship1.hit();
     expect(ship1.isSunk()).toBe(false);
 });
 
 test("sinks the ship", () => {
     let ship1 = ship(3);
-    ship1.hitOne();
-    ship1.hitOne();
-    ship1.hitOne();
+    ship1.hit();
+    ship1.hit();
+    ship1.hit();
     expect(ship1.isSunk()).toBeTruthy();
 });
