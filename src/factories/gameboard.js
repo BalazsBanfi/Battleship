@@ -25,19 +25,20 @@ export const gameboard = () => {
             board.cells[coord] = 'notNull';
         }
     }
-
+    let coords = []
     board.placeShip = (startCoord, shipType, length, direction) => {
 
         // Check if the cell are free to place a ship
-        let coords = [];
+        coords = [];
         for (let i = 0; i < length * direction; i += direction) {
-            if (board.cells[startCoord + i] && board.cells[startCoord + i] === 'null') { coords.push(board.cells[startCoord + i]) };
+            coords.push(board.cells[startCoord + i] ? board.cells[startCoord + i] : 'Something else')
+            //if ((board.cells[startCoord + i] || 'hoho') === 'null') { coords.push('null') };
         }
 
         // Check if the ship placed longer than the board edge
-        if ((coords.length === length)
+        if (((coords.filter((x) => x === 'null') || []).length === length)
             && ((direction === 1 && startCoord % 10 + (length * direction) < 10)
-                || (direction === 10 && startCoord + (length * direction) < 100))) {
+                || (direction === 10 && startCoord + (length * direction) < 110))) {
             // Horizontal ship set inactive
             if (direction === 1) {
                 if (startCoord % 10 > 0) {
@@ -45,12 +46,12 @@ export const gameboard = () => {
                     setInactive(startCoord - 11);
                     setInactive(startCoord + 9);
                 };
-                if (startCoord + length % 10 < 9) {
-                    setInactive(startCoord + length + 1);
-                    setInactive(startCoord + length + 11);
-                    setInactive(startCoord + length - 9);
+                if ((startCoord + length) % 10 < 9) {
+                    setInactive(startCoord + length);
+                    setInactive(startCoord + length + 10);
+                    setInactive(startCoord + length - 10);
                 };
-                for (let j = startCoord; j < startCoord + length; j++) {
+                for (let j = startCoord; j <= startCoord + length; j++) {
                     setInactive(j - 10);
                     setInactive(j + 10);
                 }
@@ -59,18 +60,18 @@ export const gameboard = () => {
             // Vertical ship set inactive
             if (direction === 10) {
                 if (startCoord > 9) {
-                    setInactive(startCoord - 12);
-                    setInactive(startCoord - 11);
+                    if (startCoord % 10 > 0) { setInactive(startCoord - 11) };
                     setInactive(startCoord - 10);
+                    if (startCoord % 10 < 9) { setInactive(startCoord - 9) };
                 };
-                if (startCoord + (length * 10) < 90) {
-                    setInactive(startCoord + length + 9);
-                    setInactive(startCoord + length + 10);
-                    setInactive(startCoord + length + 11);
+                if (startCoord + (length * 10) < 100) {
+                    if (startCoord % 10 > 0) { setInactive(startCoord + (length * direction) - 1) };
+                    setInactive(startCoord + (length * direction));
+                    if (startCoord % 10 < 9) { setInactive(startCoord + (length * direction) + 1) };
                 };
-                for (let j = startCoord; j < startCoord + (length * direction); j++) {
-                    setInactive(j - 10);
-                    setInactive(j + 10);
+                for (let j = startCoord; j < startCoord + (length * direction); j += direction) {
+                    setInactive(j - 1);
+                    setInactive(j + 1);
                 }
             }
             // Set the cell value to ship name depends on direction
@@ -84,7 +85,7 @@ export const gameboard = () => {
     const chooseShip = Object.keys(ships);
     chooseShip.forEach((x) => {
         while (!placed) {
-            board.placeShip(random(100), x, ships[x], random(2))
+            board.placeShip(random(100), x, ships[x], (random(2) * 9) + 1)
         }
         placed = false;
     });
