@@ -1,0 +1,217 @@
+:root {
+  --bodyBg: rgb(38, 89, 106);
+  --headBg: rgb(8, 40, 48);
+  --headC: rgb(123, 185, 204);
+  --borderC: rgb(9, 19, 22);
+  --blackCell: rgb(48, 59, 60);
+  --whiteCell: rgb(129, 159, 161);
+  --pathCell: rgb(70, 149, 85);
+  --paraC: rgb(70, 149, 85);
+}
+
+/* roboto-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: url("roboto-v30-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*****************
+***Body section***
+******************/
+
+body {
+  text-align: center;
+  font-size: 15px;
+  font-family: Roboto, sans-serif;
+  display: grid;
+  place-items: center;
+  background-color: var(--bodyBg);
+}
+
+/*******************
+***Header section***
+*******************/
+
+header {
+  min-width: 100%;
+  background-color: var(--headBg);
+  color: var(--headC);
+  padding: 0.5rem;
+}
+
+header * {
+  padding: 0.5rem;
+}
+
+#pathParagraph {
+  color: var(--paraC);
+  transition-duration: 1.4s;
+  margin: 0 2rem;
+}
+
+/**********************
+***Container section***
+**********************/
+
+.container {
+  min-width: 100%;
+  padding: 0.5rem 0.5rem;
+  display: grid;
+  grid-template: 1fr / 1fr 1fr;
+  place-items: center;
+}
+
+/******************
+***Table section***
+******************/
+
+#boardComputer {
+  box-shadow: 0px 0px 13px 5px var(--borderC);
+  margin: 2rem;
+  display: grid;
+  grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+  place-items: center;
+  width: 500px;
+  height: 500px;
+}
+
+#boardPlayer {
+  box-shadow: 0px 0px 13px 5px var(--borderC);
+  margin: 2rem;
+  display: grid;
+  grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+  place-items: center;
+  width: 500px;
+  height: 500px;
+}
+
+.cellNull {
+  width: 50px;
+  height: 50px;
+  font-size: 1.25rem;
+  border: 1px solid black;
+  color: rgb(9, 19, 22);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.cellNull:hover {
+  opacity: 0.4;
+}
+
+.comp {
+  background-color: var(--blackCell);
+}
+
+.player {
+  background-color: var(--whiteCell);
+}
+
+/**************************
+  ***Cell columns and rows***
+  **************************/
+
+.firstRow::before {
+  position: absolute;
+  bottom: 60px;
+}
+
+.firstColumn::after {
+  position: absolute;
+  right: 60px;
+}
+
+.firstRow:nth-child(1)::before {
+  content: "A";
+}
+
+.firstRow:nth-child(2)::before {
+  content: "B";
+}
+
+.firstRow:nth-child(3)::before {
+  content: "C";
+}
+
+.firstRow:nth-child(4)::before {
+  content: "D";
+}
+
+.firstRow:nth-child(5)::before {
+  content: "E";
+}
+
+.firstRow:nth-child(6)::before {
+  content: "F";
+}
+
+.firstRow:nth-child(7)::before {
+  content: "G";
+}
+
+.firstRow:nth-child(8)::before {
+  content: "H";
+}
+
+.firstRow:nth-child(9)::before {
+  content: "I";
+}
+
+.firstRow:nth-child(10)::before {
+  content: "J";
+}
+
+.firstColumn:nth-child(1)::after {
+  content: "1";
+}
+
+.firstColumn:nth-child(11)::after {
+  content: "2";
+}
+
+.firstColumn:nth-child(21)::after {
+  content: "3";
+}
+
+.firstColumn:nth-child(31)::after {
+  content: "4";
+}
+.firstColumn:nth-child(41)::after {
+  content: "5";
+}
+
+.firstColumn:nth-child(51)::after {
+  content: "6";
+}
+
+.firstColumn:nth-child(61)::after {
+  content: "7";
+}
+
+.firstColumn:nth-child(71)::after {
+  content: "8";
+}
+
+.firstColumn:nth-child(81)::after {
+  content: "9";
+}
+
+.firstColumn:nth-child(91)::after {
+  content: "10";
+}
+
+/************************
+  ***Media query section***
+  ************************/

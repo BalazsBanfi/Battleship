@@ -1,5 +1,8 @@
-import { player } from './src/player';
+import { player } from './factories/player.js';
+import { renderPage } from "./render.js";
 
-const PlayerOne = player('Balázs');
+
+const playerOne = player('Balázs');
 const computer = player('computer');
 
+renderPage();
