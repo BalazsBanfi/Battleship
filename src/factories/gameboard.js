@@ -111,6 +111,7 @@ export const gameboard = () => {
             fleet[board.cells[attackCell]].hit();
             if (fleet[board.cells[attackCell]].isSunk() === true) { board.stillAlive-- };
             board.cells[attackCell] = 'hit' + board.cells[attackCell];
+            return board.cells[attackCell].slice(3)
         }
     }
 

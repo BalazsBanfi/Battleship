@@ -51,7 +51,9 @@ export const renderPage = () => {
     const cellsComp = document.querySelectorAll(".comp");
     cellsComp.forEach((square) => {
         square.addEventListener("click", () => {
-            console.log(square.id)
+            console.log(square.id);
+            let test1 = boardComp.receiveAttack(square.id);           
+            console.log(test1);
         })
 
     })
