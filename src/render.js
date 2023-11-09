@@ -2,14 +2,17 @@ import { gameboard } from "./factories/gameboard.js"
 
 export const renderPage = () => {
 
+    // Prepare player board, place the boats randomly
+    const boardPlayer = gameboard();
+    boardPlayer.setComputerBoard();
+    const playerDiv = document.getElementById('boardPlayer');
+
     // Prepare computer board, place the boats randomly
     const boardComp = gameboard();
     boardComp.setComputerBoard();
-    const playerDiv = document.getElementById('boardPlayer')
+    const compDiv = document.getElementById('boardComputer');
 
-    const compDiv = document.getElementById('boardComputer')
-
-    // Render the board of the player
+    // Render the board of the player with random ships
     for (let i = 0; i < 100; i++) {
         let cell = document.createElement("div");
         if (i < 10) {
@@ -21,6 +24,7 @@ export const renderPage = () => {
 
         cell.classList.add("cellNull");
         cell.classList.add("player");
+        cell.classList.add(`${boardPlayer.cells[i]}`)
         cell.setAttribute("id", `${i}`);
         playerDiv.appendChild(cell);
     }

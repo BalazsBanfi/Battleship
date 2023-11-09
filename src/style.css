@@ -123,6 +123,27 @@ header * {
   ***Cell columns and rows***
   **************************/
 
+/* Test show the boats */  
+.Carrier {
+  border: 2px solid red;
+}
+.Battleship {
+  border: 2px solid red;
+}
+.Cruiser {
+  border: 2px solid red;
+}
+.Submarine {
+  border: 2px solid red;
+}
+.Destroyer {
+  border: 2px solid red;
+}
+
+.Battleship {
+  border: 2px solid red;
+}
+
 .firstRow::before {
   position: absolute;
   bottom: 60px;
