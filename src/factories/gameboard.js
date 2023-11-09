@@ -107,7 +107,7 @@ export const gameboard = () => {
             return 'inactive';
         } else {
             fleet[board.cells[attackCell]].hit();
-            if (fleet[board.cells[attackCell]].isSunk() === true) { board.stillAlive--};
+            if (fleet[board.cells[attackCell]].isSunk() === true) { board.stillAlive-- };
             board.cells[attackCell] = 'hit' + board.cells[attackCell];
         }
     }
