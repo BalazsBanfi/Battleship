@@ -7,7 +7,7 @@ const ships = {
     Destroyer: 2
 }
 
-const random = (x) => Math.floor(math.random() * x);
+const random = (x) => Math.floor(Math.random() * x);
 
 // Factory function for create board
 export const gameboard = () => {
@@ -27,7 +27,7 @@ export const gameboard = () => {
     }
 
     board.placeShip = (startCoord, shipType, length, direction) => {
-        placed = false;
+
         // Check if the cell are free to place a ship
         let coords = [];
         for (let i = 0; i < length * direction; i += direction) {
@@ -84,8 +84,9 @@ export const gameboard = () => {
     const chooseShip = Object.keys(ships);
     chooseShip.forEach((x) => {
         while (!placed) {
-            placeShip(random(100), x, ships[x], random(2))
+            board.placeShip(random(100), x, ships[x], random(2))
         }
+        placed = false;
     });
 
     return board;
