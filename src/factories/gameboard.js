@@ -1,3 +1,6 @@
+import { ship } from './ship';
+
+
 // Ship types and lengths
 const ships = {
     Carrier: 5,
@@ -82,13 +85,29 @@ export const gameboard = () => {
         }
     }
 
+
     const chooseShip = Object.keys(ships);
+    const fleet = {}
     chooseShip.forEach((x) => {
         while (!placed) {
             board.placeShip(random(100), x, ships[x], (random(2) * 9) + 1)
         }
         placed = false;
+        fleet[x] = ship(ships[x]);
     });
+
+    board.receiveAttack = (attackCell) => {
+        if (board[attackCell] === 'null' || board[attackCell] === 'notNull') {
+            board[attackCell] = 'didNotHit';
+            return 'didNotHit';
+        } else if (board[attackCell] === 'didNotHit') {
+            return 'inactive';
+        } else {
+            fleet[board[attackCell]].hit;
+            board[attackCell] = 'hit' + board[attackCell];
+            fleet[board[attackCell]].hit;
+        }
+    }
 
     return board;
 };
