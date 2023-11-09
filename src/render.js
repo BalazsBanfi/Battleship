@@ -47,12 +47,12 @@ export const renderPage = () => {
         compDiv.appendChild(cell);
     }
 
-    // Add event listener to the combuter board cells
+    // Add event listener to the computer board cells
     const cellsComp = document.querySelectorAll(".comp");
     cellsComp.forEach((square) => {
         square.addEventListener("click", () => {
             console.log(square.id);
-            let test1 = boardComp.receiveAttack(square.id);           
+            let test1 = boardComp.receiveAttack(square.id);
             console.log(test1);
         })
 

@@ -17,7 +17,7 @@ export const gameboard = () => {
     const board = {};
     let placed = false;
 
-    // Creating a two-dimensional array with an object in it and fill with value: null
+    // Creating an array with an object in it and fill with value: null
     board.cells = [];
     for (let i = 0; i < 100; i++) {
         board.cells.push('null');
