@@ -96,16 +96,19 @@ export const gameboard = () => {
         fleet[x] = ship(ships[x]);
     });
 
+    board.stillAlive = 5;
     board.receiveAttack = (attackCell) => {
-        if (board[attackCell] === 'null' || board[attackCell] === 'notNull') {
-            board[attackCell] = 'didNotHit';
+        if (board.cells[attackCell] === 'null' || board.cells[attackCell] === 'notNull') {
+            board.cells[attackCell] = 'didNotHit';
             return 'didNotHit';
-        } else if (board[attackCell] === 'didNotHit') {
+        } else if (board.cells[attackCell] === 'didNotHit') {
+            return 'inactive';
+        } else if (board.cells[attackCell][0] === 'h') {
             return 'inactive';
         } else {
-            fleet[board[attackCell]].hit;
-            board[attackCell] = 'hit' + board[attackCell];
-            fleet[board[attackCell]].hit;
+            fleet[board.cells[attackCell]].hit();
+            if (fleet[board.cells[attackCell]].isSunk() === true) { board.stillAlive--};
+            board.cells[attackCell] = 'hit' + board.cells[attackCell];
         }
     }
 

@@ -28,6 +28,23 @@ test("There are inactive cells:", () => {
 
 test("There are not used cells:", () => {
     let board1 = gameboard();
+    expect(board1.cells.filter((x) => x === 'null').length).toBeGreaterThan(25);
+});
+
+test("Shoot all of cells:", () => {
+    let board1 = gameboard();
+    for (let i = 0; i < 100; i++) {
+        board1.receiveAttack(i)
+    }
     console.table(board1.cells);
-    expect(board1.cells.filter((x) => x === 'null').length).toBeGreaterThan(30);
+    expect(board1.cells.filter((x) => x === 'didNotHit').length).toBeGreaterThan(30);
+});
+
+
+test("All the ships sunk:", () => {
+    let board1 = gameboard();
+    for (let i = 0; i < 100; i++) {
+        board1.receiveAttack(i)
+    }
+    expect(board1.stillAlive).toBe(0);
 });
