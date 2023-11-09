@@ -47,4 +47,14 @@ export const renderPage = () => {
         compDiv.appendChild(cell);
     }
 
+    // Add event listener to the combuter board cells
+    const cellsComp = document.querySelectorAll(".comp");
+    cellsComp.forEach((square) => {
+        square.addEventListener("click", () => {
+            console.log(square.id)
+        })
+
+    })
+
+
 }
