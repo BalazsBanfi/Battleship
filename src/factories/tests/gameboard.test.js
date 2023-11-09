@@ -36,7 +36,6 @@ test("Shoot all of cells:", () => {
     for (let i = 0; i < 100; i++) {
         board1.receiveAttack(i)
     }
-    console.table(board1.cells);
     expect(board1.cells.filter((x) => x === 'didNotHit').length).toBeGreaterThan(30);
 });
 
