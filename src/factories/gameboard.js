@@ -12,6 +12,7 @@ const random = (x) => Math.floor(math.random() * x);
 // Factory function for create board
 export const gameboard = () => {
     const board = {};
+    let placed = false;
 
     // Creating a two-dimensional array with an object in it and fill with value: null
     board.cells = [];
@@ -26,7 +27,7 @@ export const gameboard = () => {
     }
 
     board.placeShip = (startCoord, shipType, length, direction) => {
-
+        placed = false;
         // Check if the cell are free to place a ship
         let coords = [];
         for (let i = 0; i < length * direction; i += direction) {
@@ -37,7 +38,6 @@ export const gameboard = () => {
         if ((coords.length === length)
             && ((direction === 1 && startCoord % 10 + (length * direction) < 10)
                 || (direction === 10 && startCoord + (length * direction) < 100))) {
-
             // Horizontal ship set inactive
             if (direction === 1) {
                 if (startCoord % 10 > 0) {
@@ -77,7 +77,16 @@ export const gameboard = () => {
             for (let i = startCoord; i < startCoord + (length * direction); i += direction) {
                 board.cells[i] = shipType;
             }
+            placed = true;
         }
     }
+
+    const chooseShip = Object.keys(ships);
+    chooseShip.forEach((x) => {
+        while (!placed) {
+            placeShip(random(100), x, ships[x], random(2))
+        }
+    });
+
     return board;
 };
