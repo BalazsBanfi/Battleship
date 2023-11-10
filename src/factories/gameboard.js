@@ -20,47 +20,51 @@ export const gameboard = () => {
 
     // Set the cell value inactive around the ship
     const setInactive = (coord, lengthCoords) => {
+        console.log("setinactive, coord, length ||", coord, length)
+
         for (let i = -1; i <= lengthCoords; i++)
-            for (let j = -1; j < 2; j++) {
-                if (board.cells[i + coord[0]][j + coord[1]] && board.cells[i + coord[0]][j + coord[1]] === 'null') {
-                    board.cells[i + coord[0]][j + coord[1]] = 'notNull';
+            if (i + coord[0] < 0 || i + coord[0] > 9) {
+                continue;
+                for (let j = -1; j < 2; j++) {
+                    if (j + coord[1] < 0 || j + coord[1] > 9) {
+                        continue;
+                    }
+                    {
+                        board.cells[i + coord[0]][j + coord[1]] === 'null'
+                            ? 'notNull'
+                            : board.cells[i + coord[0]][j + coord[1]];
+                    }
                 }
             }
-    }
 
+    }
 
     let coords = []
     board.placeShip = (startCoord, shipType, length, direction) => {
 
-        // Check if the cell are free to place a ship
-
         coords = [];
-        if ((direction === 0 && startCoord[0] + length < 10)
-            || (direction === 1 && startCoord[1] + length < 10)) {
-            for (let i = 0; i < length; i += 1) {
-                coords.push(direction === 0 ? board.cells[i + startCoord[0], startCoord[1]] : board.cells[startCoord[0], i + startCoord[1]])
-            }
-        } else {
-            return 'Cannot place there!!';
-        }
+        for (let i = 0; i < length; i++) {
 
+            console.log("hibás koordinátásk? dir, i, ship, 0, 1 |||", direction, i, shipType, startCoord[0], startCoord[1]);
+            coords.push(direction === 1
+                ? board.cells[startCoord[0]][i + startCoord[1]]
+                : board.cells[i + startCoord[0]][startCoord[1]])
+        }
         if ((coords.flat(2).filter((x) => x === 'null') || []).length === length) {
-            let j = 0;
-            let k = 0;
             for (let i = 0; i < length; i++) {
-                board.cells[j + startCoord[0]][k + startCoord[1]] = shipType;
-                setInactive(board.cells[j + startCoord[0]][k + startCoord[1]], length);
-                if (direction === 0) {
-                    j++;
-                } else {
-                    k++;
+                if (direction === 1) {
+                    board.cells[startCoord[0]][i + startCoord[1]] = shipType;
+                    setInactive([startCoord[0]][i + startCoord[1]], length);
+                }
+                else {
+                    board.cells[i + startCoord[0]][startCoord[1]] = shipType;
+                    setInactive([i + startCoord[0]][startCoord[1]], length);
                 }
             }
-
+            placed = true;
         }
 
-        // Check if the ship placed longer than the board edge
-        placed = true;
+
     }
 
     const chooseShip = Object.keys(ships);
@@ -69,28 +73,34 @@ export const gameboard = () => {
     board.setComputerBoard = () => {
         chooseShip.forEach((x) => {
             while (!placed) {
-                board.placeShip([random(10), random(10)], x, ships[x], random(2));
+                let direction = random(2);
+                let col = direction === 1 ? random(10) : random(10 - ships[x]);
+                let row = direction === 1 ? random(10 - ships[x]) : random(10);
+                console.log('row és col', row, col, direction)
+                board.placeShip([row, col], x, ships[x], random(2));
             }
             placed = false;
             fleet[x] = ship(ships[x]);
         });
+        console.table(board.cells)
     }
     board.stillAlive = 5;
+
     board.receiveAttack = (attackCell) => {
-        if (board.cells[attackCell] === 'null' || board.cells[attackCell] === 'notNull') {
-            board.cells[attackCell] = 'didNotHit';
+        if (board.cells[attackCell[0]][attackCell[1]] === 'null'
+            || board.cells[attackCell[0]][attackCell[1]] === 'notNull') {
+            board.cells[attackCell[0]][attackCell[1]] = 'didNotHit';
             return 'didNotHit';
-        } else if (board.cells[attackCell] === 'didNotHit') {
+        } else if (board.cells[attackCell[0]][attackCell[1]] === 'didNotHit') {
             return 'inactive';
-        } else if (board.cells[attackCell][0] === 'h') {
+        } else if (board.cells[attackCell[0]][attackCell[1]] === 'h') {
             return 'inactive';
         } else {
-            fleet[board.cells[attackCell]].hit();
-            if (fleet[board.cells[attackCell]].isSunk() === true) { board.stillAlive-- };
-            board.cells[attackCell] = 'hit' + board.cells[attackCell];
-            return board.cells[attackCell].slice(3)
+            fleet[board.cells[attackCell[0]][attackCell[1]]].hit();
+            if (fleet[board.cells[attackCell[0]][attackCell[1]]].isSunk() === true) { board.stillAlive-- };
+            board.cells[attackCell[0]][attackCell[1]] = 'hit' + board.cells[attackCell[0]][attackCell[1]];
+            return board.cells[attackCell[0]][attackCell[1]].slice(3)
         }
     }
-
     return board;
 };
