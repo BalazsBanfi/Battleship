@@ -5,11 +5,15 @@ test("Board is array", () => {
     expect(Array.isArray(board1.cells)).toBe(true);
 });
 
-test("Board has 100 cells", () => {
+test("Board has 10 cells", () => {
     let board1 = gameboard();
-    expect(board1.cells.length).toBe(100);
+    expect(board1.cells.length).toBe(10);
 });
 
+test("Board has 10 cells", () => {
+    let board1 = gameboard();
+    expect(board1.cells[1].length).toBe(10);
+});
 
 test("Place all the ships on random cells:", () => {
     let board1 = gameboard();

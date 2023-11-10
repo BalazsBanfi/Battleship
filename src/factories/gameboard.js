@@ -14,77 +14,54 @@ const random = (x) => Math.floor(Math.random() * x);
 
 // Factory function for create board
 export const gameboard = () => {
-    const board = {};
+    const board = {}
+    board.cells = createBoard();
     let placed = false;
 
-    // Creating an array with an object in it and fill with value: null
-    board.cells = [];
-    for (let i = 0; i < 100; i++) {
-        board.cells.push('null');
+    // Set the cell value inactive around the ship
+    const setInactive = (coord, lengthCoords) => {
+        for (let i = -1; i <= lengthCoords; i++)
+            for (let j = -1; j < 2; j++) {
+                if (board.cells[i + coord[0]][j + coord[1]] && board.cells[i + coord[0]][j + coord[1]] === 'null') {
+                    board.cells[i + coord[0]][j + coord[1]] = 'notNull';
+                }
+            }
     }
 
-    const setInactive = (coord) => {
-        if (board.cells[coord]) {
-            board.cells[coord] = 'notNull';
-        }
-    }
+
     let coords = []
     board.placeShip = (startCoord, shipType, length, direction) => {
 
         // Check if the cell are free to place a ship
+
         coords = [];
-        for (let i = 0; i < length * direction; i += direction) {
-            coords.push(board.cells[startCoord + i] ? board.cells[startCoord + i] : 'Something else')
-            //if ((board.cells[startCoord + i] || 'hoho') === 'null') { coords.push('null') };
+        if ((direction === 0 && startCoord[0] + length < 10)
+            || (direction === 1 && startCoord[1] + length < 10)) {
+            for (let i = 0; i < length; i += 1) {
+                coords.push(direction === 0 ? board.cells[i + startCoord[0], startCoord[1]] : board.cells[startCoord[0], i + startCoord[1]])
+            }
+        } else {
+            return 'Cannot place there!!';
+        }
+
+        if ((coords.flat(2).filter((x) => x === 'null') || []).length === length) {
+            let j = 0;
+            let k = 0;
+            for (let i = 0; i < length; i++) {
+                board.cells[j + startCoord[0]][k + startCoord[1]] = shipType;
+                setInactive(board.cells[j + startCoord[0]][k + startCoord[1]], length);
+                if (direction === 0) {
+                    j++;
+                } else {
+                    k++;
+                }
+            }
+
         }
 
         // Check if the ship placed longer than the board edge
-        if (((coords.filter((x) => x === 'null') || []).length === length)
-            && ((direction === 1 && startCoord % 10 + (length * direction) < 10)
-                || (direction === 10 && startCoord + (length * direction) < 110))) {
-            // Horizontal ship set inactive
-            if (direction === 1) {
-                if (startCoord % 10 > 0) {
-                    setInactive(startCoord - 1);
-                    setInactive(startCoord - 11);
-                    setInactive(startCoord + 9);
-                };
-                if ((startCoord + length) % 10 < 9) {
-                    setInactive(startCoord + length);
-                    setInactive(startCoord + length + 10);
-                    setInactive(startCoord + length - 10);
-                };
-                for (let j = startCoord; j <= startCoord + length; j++) {
-                    setInactive(j - 10);
-                    setInactive(j + 10);
-                }
-            }
-
-            // Vertical ship set inactive
-            if (direction === 10) {
-                if (startCoord > 9) {
-                    if (startCoord % 10 > 0) { setInactive(startCoord - 11) };
-                    setInactive(startCoord - 10);
-                    if (startCoord % 10 < 9) { setInactive(startCoord - 9) };
-                };
-                if (startCoord + (length * 10) < 100) {
-                    if (startCoord % 10 > 0) { setInactive(startCoord + (length * direction) - 1) };
-                    setInactive(startCoord + (length * direction));
-                    if (startCoord % 10 < 9) { setInactive(startCoord + (length * direction) + 1) };
-                };
-                for (let j = startCoord; j < startCoord + (length * direction); j += direction) {
-                    setInactive(j - 1);
-                    setInactive(j + 1);
-                }
-            }
-            // Set the cell value to ship name depends on direction
-            for (let i = startCoord; i < startCoord + (length * direction); i += direction) {
-                board.cells[i] = shipType;
-            }
-            placed = true;
-        }
+        placed = true;
     }
-
 
     const chooseShip = Object.keys(ships);
     const fleet = {}
@@ -92,7 +69,7 @@ export const gameboard = () => {
     board.setComputerBoard = () => {
         chooseShip.forEach((x) => {
             while (!placed) {
-                board.placeShip(random(100), x, ships[x], (random(2) * 9) + 1)
+                board.placeShip([random(10), random(10)], x, ships[x], random(2));
             }
             placed = false;
             fleet[x] = ship(ships[x]);
