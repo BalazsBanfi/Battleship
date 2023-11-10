@@ -74,7 +74,6 @@ export const gameboard = () => {
             placed = false;
             fleet[x] = ship(ships[x]);
         });
-        console.table(board.cells)
     }
     board.stillAlive = 5;
 

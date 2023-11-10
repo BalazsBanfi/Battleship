@@ -17,6 +17,7 @@ test("Board has 10 cells", () => {
 
 test("Place all the ships on random cells:", () => {
     let board1 = gameboard();
+    board1.setComputerBoard();
     expect(board1.cells.flat(2).filter((x) => x === 'Carrier').length).toBe(5);
     expect(board1.cells.flat(2).filter((x) => x === 'Battleship').length).toBe(4);
     expect(board1.cells.flat(2).filter((x) => x === 'Cruiser').length).toBe(3);
@@ -27,7 +28,6 @@ test("Place all the ships on random cells:", () => {
 test("There are inactive cells:", () => {
     let board1 = gameboard();
     board1.setComputerBoard();
-    console.table(board1.cells);
     expect(board1.cells.flat(2).filter((x) => x === 'notNull').length).toBeGreaterThan(30);
 });
 

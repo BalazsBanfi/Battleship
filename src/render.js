@@ -26,7 +26,7 @@ export const renderPage = () => {
             cell.classList.add("cellNull");
             cell.classList.add("player");
             cell.classList.add(`${boardPlayer.cells[i][j]}`)
-            cell.setAttribute("id", `${i}`);
+            cell.setAttribute("id", `${i}${j}`);
             playerDiv.appendChild(cell);
         }
     }
@@ -46,7 +46,7 @@ export const renderPage = () => {
             cell.classList.add("cellNull");
             cell.classList.add("comp");
             cell.classList.add(`${boardComp.cells[i][j]}`)
-            cell.setAttribute("id", `${i}`);
+            cell.setAttribute("id", `${i}${j}`);
             compDiv.appendChild(cell);
         }
     }
@@ -55,10 +55,7 @@ export const renderPage = () => {
     const cellsComp = document.querySelectorAll(".comp");
     cellsComp.forEach((square) => {
         square.addEventListener("click", () => {
-            console.log(square.id);
             let test1 = boardComp.receiveAttack(square.id);
-            console.log(test1);
         })
-
     })
 }
