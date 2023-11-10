@@ -1,5 +1,5 @@
 import { ship } from './ship.js';
-
+import { createBoard } from './createBoard.js'
 
 // Ship types and lengths
 const ships = {
