@@ -76,7 +76,7 @@ export const gameboard = () => {
     }
     board.stillAlive = 5;
 
-    board.receiveAttack = (row, col) => {
+    board.receiveAttack = ([row, col]) => {
         if (board.cells[row][col] === 'null'
             || board.cells[row][col] === 'notNull') {
             board.cells[row][col] = 'didNotHit';
