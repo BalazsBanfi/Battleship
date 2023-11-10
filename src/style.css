@@ -125,23 +125,23 @@ header * {
 
 /* Test show the boats */  
 .Carrier {
-  border: 2px solid red;
+  border: 4px solid red;
 }
 .Battleship {
-  border: 2px solid red;
+  border: 4px solid green;
 }
 .Cruiser {
-  border: 2px solid red;
+  border: 4px solid yellow;
 }
 .Submarine {
-  border: 2px solid red;
+  border: 4px solid blue;
 }
 .Destroyer {
-  border: 2px solid red;
+  border: 4px solid purple;
 }
 
 .Battleship {
-  border: 2px solid red;
+  border: 4px solid cyan;
 }
 
 .firstRow::before {
