@@ -1,9 +1,8 @@
 // Factory function for add players
 export const player = (name) => {
-    const attacks = [];
+    const attackedCells = [];
     const attack = (coord) => {
-        attacks.push(coord);
+        attackedCells.push(coord);
     }
-    return { name, attacks, attack }
+    return { name, attackedCells, attack }
 };
-

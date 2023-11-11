@@ -1,11 +1,10 @@
 import { ship } from './ship.js';
 import { createBoard } from './createBoard.js'
 
-
-const random = (x) => Math.floor(Math.random() * x);
-
 // Factory function for create board
 export const gameboard = () => {
+    const random = (x) => Math.floor(Math.random() * x);
+
     // Ship types and lengths
     const ships = {
         Carrier: 5,
@@ -14,35 +13,19 @@ export const gameboard = () => {
         Submarine: 3,
         Destroyer: 2
     }
+    const chooseShip = Object.keys(ships);
+    const fleet = {}
     const board = {}
+    let coords = []
     let placed = false;
     board.cells = createBoard();
+    board.stillAlive = 5;
 
-    // Set the cell value inactive around the ship
-    const setInactive = ([col, row]) => {
-        for (let i = -1; i < 2; i++)
-            for (let j = -1; j < 2; j++) {
-                {
-                    if (board.cells[i + col] !== undefined && board.cells[i + col][j + row] !== undefined) {
-                        if (board.cells[i + col][j + row] === 'null') {
-                            board.cells[i + col][j + row] = 'notNull'
-                        }
-                    }
-                }
 
-            }
-    }
-
-    let coords = []
     board.placeShip = ([row, col], shipType, length, direction) => {
-
         coords = [];
         for (let i = 0; i < length; i++) {
-            if (direction === 0) {
-                coords.push(board.cells[row][i + col])
-            } else if (direction === 1) {
-                coords.push(board.cells[i + row][col])
-            }
+            coords.push(direction === 0 ? board.cells[row][i + col] : board.cells[i + row][col]);
         }
         if (coords.every((x) => x === 'null')) {
             placed = true;
@@ -59,8 +42,6 @@ export const gameboard = () => {
         }
     }
 
-    const chooseShip = Object.keys(ships);
-    const fleet = {}
 
     board.setComputerBoard = () => {
         chooseShip.forEach((x) => {
@@ -74,7 +55,6 @@ export const gameboard = () => {
             fleet[x] = ship(ships[x]);
         });
     }
-    board.stillAlive = 5;
 
     board.receiveAttack = ([row, col]) => {
         if (board.cells[row][col] === 'null'
@@ -83,7 +63,7 @@ export const gameboard = () => {
             return 'didNotHit';
         } else if (board.cells[row][col] === 'didNotHit') {
             return 'inactive';
-        } else if (board.cells[row][col] === 'h') {
+        } else if (board.cells[row][col][0] === 'h') {
             return 'inactive';
         } else {
             fleet[board.cells[row][col]].hit();
@@ -92,5 +72,19 @@ export const gameboard = () => {
             return board.cells[row][col].slice(3)
         }
     }
+
+    // Set the cell value inactive around the ship
+    const setInactive = ([col, row]) => {
+        for (let i = -1; i < 2; i++) {
+            for (let j = -1; j < 2; j++) {
+                if (board.cells[i + col] !== undefined && board.cells[i + col][j + row] !== undefined) {
+                    if (board.cells[i + col][j + row] === 'null') {
+                        board.cells[i + col][j + row] = 'notNull'
+                    }
+                }
+            }
+        }
+    }
+
     return board;
 };

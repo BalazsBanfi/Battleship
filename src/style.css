@@ -74,7 +74,7 @@ header * {
 ***Table section***
 ******************/
 
-#boardComputer {
+#computersBoard {
   box-shadow: 0px 0px 13px 5px var(--borderC);
   margin: 2rem;
   display: grid;
@@ -84,7 +84,7 @@ header * {
   height: 500px;
 }
 
-#boardPlayer {
+#playersBoard {
   box-shadow: 0px 0px 13px 5px var(--borderC);
   margin: 2rem;
   display: grid;
@@ -111,7 +111,7 @@ header * {
   opacity: 0.4;
 }
 
-.comp {
+.computer {
   background-color: var(--blackCell);
 }
 
