@@ -100,30 +100,50 @@ header * {
   font-size: 1.25rem;
   border: 1px solid black;
   color: rgb(9, 19, 22);
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
 }
 
-.cellNull:hover {
-  opacity: 0.4;
+.computer {
+  background-image: url(./pinWhite.svg);
+  background-color: var(--blackCell);
+  cursor: pointer;
 }
 
-.computer {
-  background-color: var(--blackCell);
+.computer:hover {
+  opacity: 0.4;
 }
 
 .player {
   background-color: var(--whiteCell);
 }
 
+/***********************
+***Hit and miss cells***
+***********************/
+
+.hit {
+  background-image: url(./pinRed.svg);
+  background-repeat: no-repeat;
+  background-size: 50%;
+  background-position: center;
+}
+
+.miss {
+  background-image: url(./pinWhite.svg);
+  background-repeat: no-repeat;
+  background-size: 50%;
+  background-position: center;
+}
+
+
 /**************************
   ***Cell columns and rows***
   **************************/
 
-/* Test show the boats */  
+/* Test show the boats */
 .Carrier {
   border: 4px solid red;
 }
