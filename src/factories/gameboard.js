@@ -14,8 +14,8 @@ export const gameboard = () => {
         Destroyer: 2
     }
     const chooseShip = Object.keys(ships);
-    const fleet = {}
     const board = {}
+    board.fleet = {}
     let coords = []
     let placed = false;
     board.cells = createBoard();
@@ -52,7 +52,7 @@ export const gameboard = () => {
                 board.placeShip([row, col], x, ships[x], direction);
             }
             placed = false;
-            fleet[x] = ship(ships[x]);
+            board.fleet[x] = ship(ships[x]);
         });
     }
 
@@ -66,8 +66,8 @@ export const gameboard = () => {
         } else if (board.cells[row][col][0] === 'h') {
             return 'inactive';
         } else {
-            fleet[board.cells[row][col]].hit();
-            if (fleet[board.cells[row][col]].isSunk() === true) { board.stillAlive-- };
+            board.fleet[board.cells[row][col]].hit();
+            if (board.fleet[board.cells[row][col]].isSunk() === true) { board.stillAlive-- };
             board.cells[row][col] = 'hit' + board.cells[row][col];
             return board.cells[row][col].slice(3)
         }

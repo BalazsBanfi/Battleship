@@ -1,7 +1,8 @@
 import { gameboard } from "./factories/gameboard.js"
 
 export const renderPage = () => {
-
+    const infoBox = document.getElementById('pathParagraph');
+    infoBox.innerHTML = "Target the enemies ships. 5 Ships remaining"
     // Prepare player board, place the boats randomly
     const playersBoard = gameboard();
     playersBoard.setComputerBoard();
@@ -40,9 +41,23 @@ export const renderPage = () => {
     const cellsComp = document.querySelectorAll(".computer");
     cellsComp.forEach((cell) => {
         cell.addEventListener("click", (e) => {
-            let cellContent = computersBoard.receiveAttack(cell.id);
-            console.log(e.target.id)
-            attackCell(cellContent);
+            if (e.target.classList.contains('computer')) {
+                let cellContent = computersBoard.receiveAttack(cell.id);
+                let sunk = ''
+                if (cellContent === 'didNotHit') {
+                    e.target.classList.add('miss');
+                    infoBox.innerHTML = `Mis! ${computersBoard.stillAlive} enemies ships remaining`
+ 
+                } else {
+                    e.target.classList.add('hit');
+                    console.log(computersBoard.fleet[cellContent].isSunk())
+                    sunk = computersBoard.fleet[cellContent].isSunk() ? 'and sunken. ' : ''
+                    infoBox.innerHTML = `${cellContent} hitted ${sunk}${computersBoard.stillAlive} enemies ships remaining`
+                }
+                console.log(cellContent);
+                console.log(computersBoard.stillAlive);
+                e.target.classList.remove('computer');
+            }
         })
     })
 
