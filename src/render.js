@@ -20,7 +20,7 @@ export const renderPage = () => {
             cell.classList.add(i === 0 && 'firstRow');
             cell.classList.add(j === 0 && 'firstColumn');
             cell.classList.add("cellNull", "player", `${playersBoard.cells[i][j]}`);
-            cell.setAttribute("id", `${i}${j}`);
+            cell.setAttribute("id", `p${i}${j}`);
             playerDiv.appendChild(cell);
         }
     }
@@ -32,7 +32,7 @@ export const renderPage = () => {
             cell.classList.add(i === 0 && 'firstRow');
             cell.classList.add(j === 0 && 'firstColumn');
             cell.classList.add("cellNull", "computer", `${computersBoard.cells[i][j]}`);
-            cell.setAttribute("id", `${i}${j}`);
+            cell.setAttribute("id", `c${i}${j}`);
             compDiv.appendChild(cell);
         }
     }
@@ -42,7 +42,7 @@ export const renderPage = () => {
     cellsComp.forEach((cell) => {
         cell.addEventListener("click", (e) => {
             if (e.target.classList.contains('computer')) {
-                let cellContent = computersBoard.receiveAttack(cell.id);
+                let cellContent = computersBoard.receiveAttack(cell.id.slice(1));
                 let sunk = ''
                 if (cellContent === 'didNotHit') {
                     e.target.classList.add('miss');
@@ -61,11 +61,39 @@ export const renderPage = () => {
         })
     })
 
+
+
     // Populate computer possible moves array and random AI moves on odd cells
     const cellsPlayer = document.querySelectorAll(".player");
-    const targetArr = [...Array(50).keys()].map(x => x * 2 + 1);
+    let targetArr = [...Array(50).keys()].map(x => x * 2 + 1);
+    let firstShoots = [33, 35, 44, 46, 53, 55, 64, 66];
     const compMove = () => {
-        let attack = Math.floor(Math.random() * targetArr.length)
+        let attack = firstShoots.length > 0
+            ? firstShoots[Math.floor(Math.random() * firstShoots.length)]
+            : targetArr[Math.floor(Math.random() * targetArr.length)];
+
+        let eTarget = document.getElementById(`p${attack}`)
+        let cellContent = playersBoard.receiveAttack(eTarget.id.slice(1));
+
+        targetArr = targetArr.filter(x => x !== eTarget.id.slice(1));
+        firstShoots = firstShoots.filter(x => x !== eTarget.id.slice(1));
+        console.log(firstShoots)
+
+        let sunk = ''
+
+        if (cellContent === 'didNotHit') {
+            eTarget.classList.add('miss');
+            infoBox.innerHTML = `Mis! ${playersBoard.stillAlive} enemies ships remaining`
+
+        } else {
+            eTarget.classList.add('hit');
+            console.log(cellContent)
+            sunk = playersBoard.fleet[cellContent].isSunk()
+                ? `${cellContent} hitted and sunken!`
+                : `Friendly ship hitted!`
+            infoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`
+        }
     }
+
 
 }
