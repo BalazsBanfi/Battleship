@@ -47,21 +47,25 @@ export const renderPage = () => {
                 if (cellContent === 'didNotHit') {
                     e.target.classList.add('miss');
                     infoBox.innerHTML = `Mis! ${computersBoard.stillAlive} enemies ships remaining`
- 
+
                 } else {
                     e.target.classList.add('hit');
-                    console.log(computersBoard.fleet[cellContent].isSunk())
-                    sunk = computersBoard.fleet[cellContent].isSunk() ? 'and sunken. ' : ''
-                    infoBox.innerHTML = `${cellContent} hitted ${sunk}${computersBoard.stillAlive} enemies ships remaining`
+                    sunk = computersBoard.fleet[cellContent].isSunk()
+                        ? `${cellContent} hitted and sunken!`
+                        : `Enemies ship hitted!`
+                    infoBox.innerHTML = `${sunk} ${computersBoard.stillAlive} ships remaining`
                 }
-                console.log(cellContent);
-                console.log(computersBoard.stillAlive);
                 e.target.classList.remove('computer');
             }
+            compMove();
         })
     })
 
-    const attackCell = (cellID) => {
-        console.log(cellID)
+    // Populate computer possible moves array and random AI moves on odd cells
+    const cellsPlayer = document.querySelectorAll(".player");
+    const targetArr = [...Array(50).keys()].map(x => x * 2 + 1);
+    const compMove = () => {
+        let attack = Math.floor(Math.random() * targetArr.length)
     }
+
 }
