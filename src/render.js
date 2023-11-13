@@ -1,8 +1,9 @@
 import { gameboard } from "./factories/gameboard.js"
 
 export const renderPage = () => {
-    const infoBox = document.getElementById('pathParagraph');
-    infoBox.innerHTML = "Target the enemies ships. 5 Ships remaining"
+    const playerInfoBox = document.getElementById('playerParagraph');
+    const compInfoBox = document.getElementById('compParagraph');
+    compInfoBox.innerHTML = "Target the enemies ships. 5 Ships remaining"
     // Prepare player board, place the boats randomly
     const playersBoard = gameboard();
     playersBoard.setComputerBoard();
@@ -46,14 +47,14 @@ export const renderPage = () => {
                 let sunk = ''
                 if (cellContent === 'didNotHit') {
                     e.target.classList.add('miss');
-                    infoBox.innerHTML = `Mis! ${computersBoard.stillAlive} enemies ships remaining`
+                    compInfoBox.innerHTML = `Mis! ${computersBoard.stillAlive} enemies ships remaining`
 
                 } else {
                     e.target.classList.add('hit');
                     sunk = computersBoard.fleet[cellContent].isSunk()
                         ? `${cellContent} hitted and sunken!`
                         : `Enemies ship hitted!`
-                    infoBox.innerHTML = `${sunk} ${computersBoard.stillAlive} ships remaining`
+                    compInfoBox.innerHTML = `${sunk} ${computersBoard.stillAlive} ships remaining`
                 }
                 e.target.classList.remove('computer');
             }
@@ -61,37 +62,52 @@ export const renderPage = () => {
         })
     })
 
-
-
     // Populate computer possible moves array and random AI moves on odd cells
     const cellsPlayer = document.querySelectorAll(".player");
-    let targetArr = [...Array(50).keys()].map(x => x * 2 + 1);
+    let targetArr = [];
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            if ((i + j) % 2 == 0) {
+                targetArr.push(`${i}${j}`);
+            }
+        }
+
+    }
     let firstShoots = [33, 35, 44, 46, 53, 55, 64, 66];
+    let lastHit = false;
     const compMove = () => {
-        let attack = firstShoots.length > 0
-            ? firstShoots[Math.floor(Math.random() * firstShoots.length)]
-            : targetArr[Math.floor(Math.random() * targetArr.length)];
-
-        let eTarget = document.getElementById(`p${attack}`)
-        let cellContent = playersBoard.receiveAttack(eTarget.id.slice(1));
-
-        targetArr = targetArr.filter(x => x !== eTarget.id.slice(1));
-        firstShoots = firstShoots.filter(x => x !== eTarget.id.slice(1));
-        console.log(firstShoots)
-
-        let sunk = ''
-
-        if (cellContent === 'didNotHit') {
-            eTarget.classList.add('miss');
-            infoBox.innerHTML = `Mis! ${playersBoard.stillAlive} enemies ships remaining`
+        let setHitted = (diagonal) => {
+            let removes = [diagonal - 11, diagonal - 9, +diagonal + 9, +diagonal + 11];
+            targetArr = [...targetArr.filter(x => !removes.includes(x))];
+            firstShoots = [...firstShoots.filter(x => !removes.includes(x))];
+        }
+        if (lastHit) {
+            setHitted(lastHit);
 
         } else {
-            eTarget.classList.add('hit');
-            console.log(cellContent)
-            sunk = playersBoard.fleet[cellContent].isSunk()
-                ? `${cellContent} hitted and sunken!`
-                : `Friendly ship hitted!`
-            infoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`
+            let attack = firstShoots.length > 0
+                ? firstShoots[Math.floor(Math.random() * firstShoots.length)]
+                : targetArr[Math.floor(Math.random() * targetArr.length)];
+
+            let eTarget = document.getElementById(`p${attack}`)
+            let cellContent = playersBoard.receiveAttack(eTarget.id.slice(1));
+
+            targetArr = [...targetArr.filter(x => x != eTarget.id.slice(1))];
+            firstShoots = [...firstShoots.filter(x => x != eTarget.id.slice(1))];
+            let sunk = ''
+
+            if (cellContent === 'didNotHit') {
+                eTarget.classList.add('miss');
+                playerInfoBox.innerHTML = `Mis! ${playersBoard.stillAlive} enemies ships remaining`
+
+            } else {
+                eTarget.classList.add('hit');
+                sunk = playersBoard.fleet[cellContent].isSunk()
+                    ? `${cellContent} hitted and sunken!`
+                    : `Friendly ship hitted!`;
+                playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
+                lastHit = eTarget.id.slice(1);
+            }
         }
     }
 
