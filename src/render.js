@@ -109,14 +109,11 @@ export const renderPage = () => {
                 } else {
                     tempArr.push(temp);
                 }
-
-
             }
             arr.push(tempArr);
         }
         console.table(arr)
         return arr;
-
     }
     let lastHit = false;
     const compMove = () => {
@@ -130,6 +127,24 @@ export const renderPage = () => {
             // At the first shot of the ship initialize the cross targets
             if (targetedShoots.length === 0) {
                 targetedShoots = crossShoot(diagonal);
+
+                console.table(targetedShoots.sort((a, b) => b.length - a.length));
+                // Select the longest cross and hit the first
+                let eHitTarget = document.getElementById(`p${targetedShoots.sort((a, b) => b.length - a.length)[0][0]}`)
+                let cellContent2 = playersBoard.receiveAttack(eHitTarget.id.slice(1));
+                // Check if hitted or missed the ship
+            if (cellContent2 === 'didNotHit') {
+                eHitTarget.classList.add('miss');
+                playerInfoBox.innerHTML = `Mis! ${playersBoard.stillAlive} enemies ships remaining`
+
+            } else {
+                eHitTarget.classList.add('hit');
+                sunk = playersBoard.fleet[cellContent2].isSunk()
+                    ? `${cellContent2} hitted and sunken!`
+                    : `Friendly ship hitted!`;
+                playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
+                lastHit = eHitTarget.id.slice(1);
+            }
             }
         }
 
