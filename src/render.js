@@ -103,7 +103,7 @@ export const renderPage = () => {
             for (let j = 1; j < 5; j++) {
                 temp = +id + (directions[i] * j);
 
-                if (temp < 0 || temp > 99 
+                if (temp < 0 || temp > 99
                     || document.getElementById(`p${('0' + temp).slice(-2)}`).classList.contains('miss')) {
                     break;
                 } else {
@@ -116,42 +116,46 @@ export const renderPage = () => {
         return arr;
     }
     let lastHit = false;
+    let targetedShoots = [];
     const compMove = () => {
-        let targetedShoots = [];
+        
         let setHitted = (diagonal) => {
             // Removes from the possibilities the diagonals of the hitted cell
             let removes = [diagonal - 11, diagonal - 9, +diagonal + 9, +diagonal + 11];
             targetArr = [...targetArr.filter(x => !removes.includes(x))];
             firstShoots = [...firstShoots.filter(x => !removes.includes(x))];
 
-            // At the first shot of the ship initialize the cross targets
+ /*           // At the first shot of the ship initialize the cross targets
             if (targetedShoots.length === 0) {
                 targetedShoots = crossShoot(diagonal);
-
-                console.table(targetedShoots.sort((a, b) => b.length - a.length));
+*/
                 // Select the longest cross and hit the first
-                let eHitTarget = document.getElementById(`p${targetedShoots.sort((a, b) => b.length - a.length)[0][0]}`)
-                let cellContent2 = playersBoard.receiveAttack(eHitTarget.id.slice(1));
+                targetedShoots.sort((a, b) => b.length - a.length);
+                let tempP = targetedShoots[0].shift();
+                console.log('tempP ', tempP)
+                let eHitTarget = document.getElementById(`p${tempP}`)
+                let cellContent2 = playersBoard.receiveAttack('0' + eHitTarget.id.slice(-2));
                 // Check if hitted or missed the ship
-            if (cellContent2 === 'didNotHit') {
-                eHitTarget.classList.add('miss');
-                playerInfoBox.innerHTML = `Mis! ${playersBoard.stillAlive} enemies ships remaining`
+                if (cellContent2 === 'didNotHit' || cellContent2 === 'inactive') {
+                    eHitTarget.classList.add('miss');
+                    playerInfoBox.innerHTML = `Mis! ${playersBoard.stillAlive} enemies ships remaining`
 
-            } else {
-                eHitTarget.classList.add('hit');
-                let sunk = '';
-                console.log('cellcontent2 ', cellContent2);
-                if (playersBoard.fleet[cellContent2].isSunk()) {
-                    sunk = `${cellContent2} hitted and sunken!`;
-                    lastHit = false; 
                 } else {
-                    sunk = `Friendly ship hitted!`;
-                    lastHit = eHitTarget.id.slice(1);
+                    eHitTarget.classList.add('hit');
+                    let sunk = '';
+                    console.log('cellcontent2 ', cellContent2);
+                    if (playersBoard.fleet[cellContent2].isSunk()) {
+                        sunk = `${cellContent2} hitted and sunken!`;
+                        lastHit = false;
+                        targetedShoots = [];
+                    } else {
+                        sunk = `Friendly ship hitted!`;
+                        lastHit = eHitTarget.id.slice(1);
+                    }
+                    playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
+
                 }
-                playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
-                
-            }
-            }
+   //         }
         }
 
         // After a hit calls the setHitted func
@@ -186,6 +190,7 @@ export const renderPage = () => {
                     : `Friendly ship hitted!`;
                 playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
                 lastHit = eTarget.id.slice(1);
+                targetedShoots = crossShoot(lastHit);
             }
         }
     }
