@@ -134,7 +134,7 @@ export const renderPage = () => {
                 let tempP = targetedShoots[0].shift();
                 console.log('tempP ', tempP)
                 let eHitTarget = document.getElementById(`p${tempP}`)
-                let cellContent2 = playersBoard.receiveAttack('0' + eHitTarget.id.slice(-2));
+                let cellContent2 = playersBoard.receiveAttack(('0' + eHitTarget.id).slice(-2));
                 // Check if hitted or missed the ship
                 if (cellContent2 === 'didNotHit' || cellContent2 === 'inactive') {
                     eHitTarget.classList.add('miss');
@@ -150,7 +150,7 @@ export const renderPage = () => {
                         targetedShoots = [];
                     } else {
                         sunk = `Friendly ship hitted!`;
-                        lastHit = eHitTarget.id.slice(1);
+                        lastHit = ('0' + eHitTarget.id).slice(-2);
                     }
                     playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
 
