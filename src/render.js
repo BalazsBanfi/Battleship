@@ -75,7 +75,7 @@ export const renderPage = () => {
     }
     let firstShoots = [33, 35, 44, 46, 53, 55, 64, 66];
 
-    // Return cross around the hitted shot without the missed cells
+    // Return cross around the first shot without the missed cells
     let crossShoot = (id) => {
         let arr = []
 
@@ -87,7 +87,6 @@ export const renderPage = () => {
             let tempArr = [];
             for (let j = 1; j < 5; j++) {
                 temp = +id + (directions[i] * j);
-
                 if (Math.floor(id / 10) !== Math.floor(temp / 10)
                     || document.getElementById(`p${temp}`).classList.contains('miss')) {
                     break;
@@ -104,7 +103,8 @@ export const renderPage = () => {
             for (let j = 1; j < 5; j++) {
                 temp = +id + (directions[i] * j);
 
-                if (temp < 0 || temp > 99 || document.getElementById(`p${('0' + temp).slice(-2)}`).classList.contains('miss')) {
+                if (temp < 0 || temp > 99 
+                    || document.getElementById(`p${('0' + temp).slice(-2)}`).classList.contains('miss')) {
                     break;
                 } else {
                     tempArr.push(temp);
@@ -139,11 +139,17 @@ export const renderPage = () => {
 
             } else {
                 eHitTarget.classList.add('hit');
-                sunk = playersBoard.fleet[cellContent2].isSunk()
-                    ? `${cellContent2} hitted and sunken!`
-                    : `Friendly ship hitted!`;
+                let sunk = '';
+                console.log('cellcontent2 ', cellContent2);
+                if (playersBoard.fleet[cellContent2].isSunk()) {
+                    sunk = `${cellContent2} hitted and sunken!`;
+                    lastHit = false; 
+                } else {
+                    sunk = `Friendly ship hitted!`;
+                    lastHit = eHitTarget.id.slice(1);
+                }
                 playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
-                lastHit = eHitTarget.id.slice(1);
+                
             }
             }
         }
@@ -166,7 +172,7 @@ export const renderPage = () => {
             // Delete the targeted cell from the possibilities from arrays
             targetArr = [...targetArr.filter(x => x != eTarget.id.slice(1))];
             firstShoots = [...firstShoots.filter(x => x != eTarget.id.slice(1))];
-            let sunk = ''
+            let sunk = '';
 
             // Check if hitted or missed the ship
             if (cellContent === 'didNotHit') {
