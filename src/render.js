@@ -88,7 +88,8 @@ export const renderPage = () => {
             for (let j = 1; j < 5; j++) {
                 temp = +id + (directions[i] * j);
                 if (Math.floor(id / 10) !== Math.floor(temp / 10)
-                    || document.getElementById(`p${temp}`).classList.contains('miss')) {
+                    || document.getElementById(`p${temp}`).classList.contains('miss')
+                    || document.getElementById(`p${('0' + temp).slice(-2)}`).classList.contains('hit')) {
                     break;
                 } else {
                     tempArr.push(temp);
@@ -102,9 +103,9 @@ export const renderPage = () => {
             let tempArr = [];
             for (let j = 1; j < 5; j++) {
                 temp = +id + (directions[i] * j);
-
                 if (temp < 0 || temp > 99
-                    || document.getElementById(`p${('0' + temp).slice(-2)}`).classList.contains('miss')) {
+                    || document.getElementById(`p${('0' + temp).slice(-2)}`).classList.contains('miss')
+                    || document.getElementById(`p${('0' + temp).slice(-2)}`).classList.contains('hit')) {
                     break;
                 } else {
                     tempArr.push(temp);
@@ -112,34 +113,43 @@ export const renderPage = () => {
             }
             arr.push(tempArr);
         }
-        console.table(arr)
         return arr;
     }
     let lastHit = false;
     let targetedShoots = [];
     const compMove = () => {
 
-        let setHitted = (diagonal) => {
+        let removeDiagonals = (diagonal) => {
             // Removes from the possibilities the diagonals of the hitted cell
-            let removes = [diagonal - 11, diagonal - 9, +diagonal + 9, +diagonal + 11];
+            let removes = [+diagonal - 11, +diagonal - 9, +diagonal + 9, +diagonal + 11];
             targetArr = [...targetArr.filter(x => !removes.includes(x))];
             firstShoots = [...firstShoots.filter(x => !removes.includes(x))];
 
+
+        }
+
+        // After a hit calls the setHitted func
+        if (lastHit) {
+            removeDiagonals(lastHit);
             // Select the longest cross and hit the first
             targetedShoots.sort((a, b) => b.length - a.length);
             let tempP = targetedShoots[0].shift();
-            console.log('tempP ', tempP)
             let eHitTarget = document.getElementById(`p${tempP}`)
+
+            // Delete the targeted cell from the 2 array
+            targetArr = [...targetArr.filter(x => x != eHitTarget.id.slice(1))];
+            firstShoots = [...firstShoots.filter(x => x != eHitTarget.id.slice(1))];
+
             let cellContent2 = playersBoard.receiveAttack(('0' + eHitTarget.id).slice(-2));
             // Check if hitted or missed the ship
             if (cellContent2 === 'didNotHit' || cellContent2 === 'inactive') {
                 eHitTarget.classList.add('miss');
+                targetedShoots[0] = [];
                 playerInfoBox.innerHTML = `Mis! ${playersBoard.stillAlive} enemies ships remaining`
 
             } else {
                 eHitTarget.classList.add('hit');
                 let sunk = '';
-                console.log('cellcontent2 ', cellContent2);
                 if (playersBoard.fleet[cellContent2].isSunk()) {
                     sunk = `${cellContent2} hitted and sunken!`;
                     lastHit = false;
@@ -151,12 +161,8 @@ export const renderPage = () => {
                 playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
 
             }
-            //         }
-        }
 
-        // After a hit calls the setHitted func
-        if (lastHit) {
-            setHitted(lastHit);
+
 
         } else {
             let sunk = '';
@@ -168,7 +174,6 @@ export const renderPage = () => {
             // Attacks the cell
             let eTarget = document.getElementById(`p${attack}`)
             let cellContent = playersBoard.receiveAttack(eTarget.id.slice(1));
-
             // Check if hitted or missed the ship
             if (cellContent === 'didNotHit') {
                 eTarget.classList.add('miss');
@@ -180,7 +185,7 @@ export const renderPage = () => {
                     ? `${cellContent} hitted and sunken!`
                     : `Friendly ship hitted!`;
                 playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
-                lastHit = ('0' + eHitTarget.id).slice(-2);
+                lastHit = ('0' + eTarget.id).slice(-2);
                 targetedShoots = crossShoot(lastHit);
             }
 
