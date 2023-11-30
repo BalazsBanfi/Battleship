@@ -69,7 +69,7 @@ export const gameboard = () => {
             board.fleet[board.cells[row][col]].hit();
             if (board.fleet[board.cells[row][col]].isSunk() === true) { board.stillAlive-- };
             board.cells[row][col] = 'hit' + board.cells[row][col];
-            return board.cells[row][col].slice(3)
+            return board.cells[row][col].slice(3);
         }
     }
 
@@ -85,6 +85,5 @@ export const gameboard = () => {
             }
         }
     }
-
     return board;
 };

@@ -86,7 +86,7 @@ export const renderPage = () => {
         for (let i = 0; i < 2; i++) {
             let tempArr = [];
             for (let j = 1; j < 5; j++) {
-                temp = ('0' + (+id + (directions[i] * j))).slice(-2);
+                temp = +id + (directions[i] * j);
                 if (Math.floor(id / 10) !== Math.floor(temp / 10)
                     || document.getElementById(`p${temp}`).classList.contains('miss')
                     || document.getElementById(`p${('0' + temp).slice(-2)}`).classList.contains('hit')) {
@@ -117,7 +117,7 @@ export const renderPage = () => {
     }
     let lastHit = false;
     let targetedShoots = [];
-    let hittedShip = [];
+
     const compMove = () => {
 
 
@@ -146,7 +146,8 @@ export const renderPage = () => {
             removeNeighbours(lastHit);
             // Select the longest cross and hit the first
             targetedShoots.sort((a, b) => b.length - a.length);
-            let tempP = targetedShoots[0].shift();
+            let tempP = ('0' + targetedShoots[0].shift()).slice(-2);
+            console.log("tempP ", tempP)
             let eHitTarget = document.getElementById(`p${tempP}`)
 
             // Delete the targeted cell from the 2 array
@@ -164,14 +165,14 @@ export const renderPage = () => {
             } else {
 
                 eHitTarget.classList.add('hit');
-                hittedShip.push(('0' + eHitTarget.id).slice(-2))
+
 
                 let sunk = '';
                 if (playersBoard.fleet[cellContent2].isSunk()) {
                     sunk = `${cellContent2} hitted and sunken!`;
                     lastHit = false;
                     targetedShoots = [];
-                    hittedShip = [];
+
                 } else {
                     sunk = `Friendly ship hitted!`;
                     lastHit = ('0' + eHitTarget.id).slice(-2);
@@ -202,10 +203,7 @@ export const renderPage = () => {
                     ? `${cellContent} hitted and sunken!`
                     : `Friendly ship hitted!`;
 
-                
-                // Fill the ship name to the hittedShip[0]
-                hittedShip.push(cellContent);
-                hittedShip.push((eTarget.id).slice(-2));
+
                 playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
                 lastHit = ('0' + eTarget.id).slice(-2);
                 removeNeighbours(lastHit);
