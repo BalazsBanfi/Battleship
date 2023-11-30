@@ -188,9 +188,8 @@ export const renderPage = () => {
                 : targetArr[Math.floor(Math.random() * targetArr.length)];
 
             // Attacks the cell
-            console.log("attack ", attack)
             let eTarget = document.getElementById(`p${attack}`);
-            console.log("etarget, etarget id ", eTarget, eTarget.id);
+
             let cellContent = playersBoard.receiveAttack(('0' + eTarget.id).slice(-2));
             // Check if hitted or missed the ship
             if (cellContent === 'didNotHit') {
