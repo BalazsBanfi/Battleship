@@ -49,6 +49,12 @@ export const renderPage = () => {
         console.table(boats);
     }
 
+    const showSunkenBoat = (boat) => {
+        for (let i = 0; i < boats[boat].length; i++) {
+            document.getElementById(boats[boat][i]).classList.add(boat);
+        }
+    }
+
     // Add event listener to the computer board cells
     
     const cellsComp = document.querySelectorAll(".computer");
@@ -66,8 +72,12 @@ export const renderPage = () => {
                     storeHittedBoats(cellContent, cell.id);
                     sunk = computersBoard.fleet[cellContent].isSunk()
                         ? `${cellContent} hitted and sunken!`
-                        : `Enemies ship hitted!`
+                        : `Enemies ship hitted!`;
+                    if (computersBoard.fleet[cellContent].isSunk()) {
+                        showSunkenBoat(cellContent)
+                    }
                     compInfoBox.innerHTML = `${sunk} ${computersBoard.stillAlive} ships remaining`
+                    
                 }
                 e.target.classList.remove('computer');
                 compMove();
