@@ -32,7 +32,7 @@ export const renderPage = () => {
             let cell = document.createElement("div");
             cell.classList.add(i === 0 && 'firstRow');
             cell.classList.add(j === 0 && 'firstColumn');
-            cell.classList.add("cellNull", "computer", `${computersBoard.cells[i][j]}`);
+            cell.classList.add("cellNull", "computer");
             cell.setAttribute("id", `c${i}${j}`);
             compDiv.appendChild(cell);
         }
@@ -117,15 +117,14 @@ export const renderPage = () => {
     }
     let lastHit = false;
     let targetedShoots = [];
+    let hittedShip = [];
     const compMove = () => {
-
+        
         let removeDiagonals = (diagonal) => {
             // Removes from the possibilities the diagonals of the hitted cell
             let removes = [+diagonal - 11, +diagonal - 9, +diagonal + 9, +diagonal + 11];
             targetArr = [...targetArr.filter(x => !removes.includes(x))];
             firstShoots = [...firstShoots.filter(x => !removes.includes(x))];
-
-
         }
 
         // After a hit calls the setHitted func
@@ -137,10 +136,11 @@ export const renderPage = () => {
             let eHitTarget = document.getElementById(`p${tempP}`)
 
             // Delete the targeted cell from the 2 array
-            targetArr = [...targetArr.filter(x => x != eHitTarget.id.slice(1))];
-            firstShoots = [...firstShoots.filter(x => x != eHitTarget.id.slice(1))];
+            targetArr = [...targetArr.filter(x => x != ('0' + eHitTarget.id).slice(-2))];
+            firstShoots = [...firstShoots.filter(x => x != ('0' + eHitTarget.id).slice(-2))];
 
             let cellContent2 = playersBoard.receiveAttack(('0' + eHitTarget.id).slice(-2));
+
             // Check if hitted or missed the ship
             if (cellContent2 === 'didNotHit' || cellContent2 === 'inactive') {
                 eHitTarget.classList.add('miss');
@@ -148,12 +148,16 @@ export const renderPage = () => {
                 playerInfoBox.innerHTML = `Mis! ${playersBoard.stillAlive} enemies ships remaining`
 
             } else {
+                
                 eHitTarget.classList.add('hit');
+                hittedShip.push(('0' + eHitTarget.id).slice(-2))
+                console.table(hittedShip);
                 let sunk = '';
                 if (playersBoard.fleet[cellContent2].isSunk()) {
                     sunk = `${cellContent2} hitted and sunken!`;
                     lastHit = false;
                     targetedShoots = [];
+                    hittedShip = [];
                 } else {
                     sunk = `Friendly ship hitted!`;
                     lastHit = ('0' + eHitTarget.id).slice(-2);
@@ -161,8 +165,6 @@ export const renderPage = () => {
                 playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
 
             }
-
-
 
         } else {
             let sunk = '';
@@ -173,7 +175,7 @@ export const renderPage = () => {
 
             // Attacks the cell
             let eTarget = document.getElementById(`p${attack}`)
-            let cellContent = playersBoard.receiveAttack(eTarget.id.slice(1));
+            let cellContent = playersBoard.receiveAttack(('0' + eTarget.id).slice(-2));
             // Check if hitted or missed the ship
             if (cellContent === 'didNotHit') {
                 eTarget.classList.add('miss');
@@ -184,14 +186,18 @@ export const renderPage = () => {
                 sunk = playersBoard.fleet[cellContent].isSunk()
                     ? `${cellContent} hitted and sunken!`
                     : `Friendly ship hitted!`;
+                
+                // Fill the ship name to the hittedShip[0]
+                hittedShip.push(cellContent);
+                hittedShip.push((eTarget.id).slice(-2));
                 playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
                 lastHit = ('0' + eTarget.id).slice(-2);
                 targetedShoots = crossShoot(lastHit);
             }
 
             // Delete the targeted cell from the 2 array
-            targetArr = [...targetArr.filter(x => x != eTarget.id.slice(1))];
-            firstShoots = [...firstShoots.filter(x => x != eTarget.id.slice(1))];
+            targetArr = [...targetArr.filter(x => x != ('0' + eTarget.id).slice(-2))];
+            firstShoots = [...firstShoots.filter(x => x != ('0' + eTarget.id).slice(-2))];
         }
     }
 }
