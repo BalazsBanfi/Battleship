@@ -38,7 +38,19 @@ export const renderPage = () => {
         }
     }
 
+    // Store the hitted boats
+    let boats = {};
+    const storeHittedBoats = (boat, cellID) => {
+        if (boats.hasOwnProperty(boat)) {
+            boats[boat].push(cellID);
+        } else {
+            boats[boat] = [cellID];
+        }
+        console.table(boats);
+    }
+
     // Add event listener to the computer board cells
+    
     const cellsComp = document.querySelectorAll(".computer");
     cellsComp.forEach((cell) => {
         cell.addEventListener("click", (e) => {
@@ -51,6 +63,7 @@ export const renderPage = () => {
 
                 } else {
                     e.target.classList.add('hit');
+                    storeHittedBoats(cellContent, cell.id);
                     sunk = computersBoard.fleet[cellContent].isSunk()
                         ? `${cellContent} hitted and sunken!`
                         : `Enemies ship hitted!`
@@ -60,7 +73,7 @@ export const renderPage = () => {
                 compMove();
             }
 
-            
+
         })
     })
 
@@ -73,11 +86,12 @@ export const renderPage = () => {
                 targetArr.push(`${i}${j}`);
             }
         }
-        
+
 
     }
     let firstShoots = [33, 35, 44, 46, 53, 55, 64, 66];
 
+    
     // Return cross around the first shot without the missed cells
     let crossShoot = (id) => {
         let arr = []
