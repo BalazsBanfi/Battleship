@@ -257,3 +257,10 @@ header * {
 /************************
   ***Media query section***
   ************************/
+
+@media screen and (max-width: 1200px) {
+  .container {
+    grid-template: 1fr 1fr / 1fr;
+  
+  }
+}
