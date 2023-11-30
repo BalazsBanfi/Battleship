@@ -57,8 +57,10 @@ export const renderPage = () => {
                     compInfoBox.innerHTML = `${sunk} ${computersBoard.stillAlive} ships remaining`
                 }
                 e.target.classList.remove('computer');
+                compMove();
             }
-            compMove();
+
+            
         })
     })
 
@@ -71,6 +73,7 @@ export const renderPage = () => {
                 targetArr.push(`${i}${j}`);
             }
         }
+        
 
     }
     let firstShoots = [33, 35, 44, 46, 53, 55, 64, 66];
@@ -88,7 +91,7 @@ export const renderPage = () => {
             for (let j = 1; j < 5; j++) {
                 temp = +id + (directions[i] * j);
                 if (Math.floor(id / 10) !== Math.floor(temp / 10)
-                    || document.getElementById(`p${temp}`).classList.contains('miss')
+                    || document.getElementById(`p${('0' + temp).slice(-2)}`).classList.contains('miss')
                     || document.getElementById(`p${('0' + temp).slice(-2)}`).classList.contains('hit')) {
                     break;
                 } else {
@@ -123,7 +126,7 @@ export const renderPage = () => {
 
         // Set the cell value inactive around the ship
         const removeNeighbours = (squareAround) => {
-            let removeCell;
+            let removeCell = 0;
             for (let i = -1; i < 2; i++) {
                 for (let j = -1; j < 2; j++) {
                     removeCell = +squareAround + i + (j * 10);
@@ -133,8 +136,8 @@ export const renderPage = () => {
                         || removeCell > 99) {
                         continue;
                     } else {
-                        targetArr = [...targetArr.filter(x => x != removeCell)];
-                        firstShoots = [...firstShoots.filter(x => x != removeCell)];
+                        targetArr = [...targetArr.filter(x => !(+x == removeCell))];
+                        firstShoots = [...firstShoots.filter(x => !(+x == removeCell))];
                     }
 
                 }
