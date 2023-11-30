@@ -86,7 +86,7 @@ export const renderPage = () => {
         for (let i = 0; i < 2; i++) {
             let tempArr = [];
             for (let j = 1; j < 5; j++) {
-                temp = +id + (directions[i] * j);
+                temp = ('0' + (+id + (directions[i] * j))).slice(-2);
                 if (Math.floor(id / 10) !== Math.floor(temp / 10)
                     || document.getElementById(`p${temp}`).classList.contains('miss')
                     || document.getElementById(`p${('0' + temp).slice(-2)}`).classList.contains('hit')) {
