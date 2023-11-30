@@ -38,7 +38,7 @@ export const renderPage = () => {
         }
     }
 
-    // Store the hitted boats
+    // Store the hitted boats on the computer table
     let boats = {};
     const storeHittedBoats = (boat, cellID) => {
         if (boats.hasOwnProperty(boat)) {
@@ -46,9 +46,9 @@ export const renderPage = () => {
         } else {
             boats[boat] = [cellID];
         }
-        console.table(boats);
     }
 
+    // If a boat is SUnken, add css border to the cells of the boat
     const showSunkenBoat = (boat) => {
         for (let i = 0; i < boats[boat].length; i++) {
             document.getElementById(boats[boat][i]).classList.add(boat);
@@ -174,7 +174,6 @@ export const renderPage = () => {
             // Select the longest cross and hit the first
             targetedShoots.sort((a, b) => b.length - a.length);
             let tempP = ('0' + targetedShoots[0].shift()).slice(-2);
-            console.log("tempP ", tempP)
             let eHitTarget = document.getElementById(`p${tempP}`)
 
             // Delete the targeted cell from the 2 array
