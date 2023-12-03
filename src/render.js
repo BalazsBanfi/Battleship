@@ -4,6 +4,10 @@ export const renderPage = () => {
     const playerInfoBox = document.getElementById('playerParagraph');
     const compInfoBox = document.getElementById('compParagraph');
 
+    const infoBox = (player, message) => {
+        player.innerHTML = message;
+    }
+
     // Prepare player board, place the boats randomly
     const playersBoard = gameboard();
     playersBoard.setComputerBoard();
@@ -56,8 +60,7 @@ export const renderPage = () => {
                 let sunk = ''
                 if (cellContent === 'didNotHit') {
                     e.target.classList.add('miss');
-                    compInfoBox.innerHTML = `Mis! ${computersBoard.stillAlive} ships remaining`
-
+                    infoBox(compInfoBox, `Mis! ${computersBoard.stillAlive} ships remaining`);
                 } else {
                     e.target.classList.add('hit');
                     storeHittedBoats(cellContent, cell.id);
@@ -67,8 +70,7 @@ export const renderPage = () => {
                     if (computersBoard.fleet[cellContent].isSunk()) {
                         showSunkenBoat(cellContent)
                     }
-                    compInfoBox.innerHTML = `${sunk} ${computersBoard.stillAlive} ships remaining`
-
+                    infoBox(compInfoBox, `${sunk} ${computersBoard.stillAlive} ships remaining`);
                 }
                 e.target.classList.remove('computer');
                 setTimeout(() => {
@@ -181,8 +183,7 @@ export const renderPage = () => {
             if (cellContent2 === 'didNotHit' || cellContent2 === 'inactive') {
                 eHitTarget.classList.add('miss');
                 targetedShoots[0] = [];
-                playerInfoBox.innerHTML = `Mis! ${playersBoard.stillAlive} ships remaining`
-
+                infoBox(playerInfoBox, `Mis! ${playersBoard.stillAlive} ships remaining`);
             } else {
 
                 eHitTarget.classList.add('hit');
@@ -198,8 +199,7 @@ export const renderPage = () => {
                     sunk = `Ship hitted!`;
                     lastHit = ('0' + eHitTarget.id).slice(-2);
                 }
-                playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
-
+                infoBox(playerInfoBox, `${sunk} ${playersBoard.stillAlive} ships remaining`);
             }
 
         } else {
@@ -216,8 +216,7 @@ export const renderPage = () => {
             // Check if hitted or missed the ship
             if (cellContent === 'didNotHit') {
                 eTarget.classList.add('miss');
-                playerInfoBox.innerHTML = `Mis! ${playersBoard.stillAlive} ships remaining`
-
+                infoBox(playerInfoBox, `Mis! ${playersBoard.stillAlive} ships remaining`);
             } else {
                 eTarget.classList.add('hit');
                 sunk = playersBoard.fleet[cellContent].isSunk()
@@ -225,7 +224,7 @@ export const renderPage = () => {
                     : `Ship hitted!`;
 
 
-                playerInfoBox.innerHTML = `${sunk} ${playersBoard.stillAlive} ships remaining`;
+                infoBox(playerInfoBox, `${sunk} ${playersBoard.stillAlive} ships remaining`);
                 lastHit = ('0' + eTarget.id).slice(-2);
                 removeNeighbours(lastHit);
                 targetedShoots = crossShoot(lastHit);
