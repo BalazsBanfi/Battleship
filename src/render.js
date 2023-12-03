@@ -4,6 +4,7 @@ export const renderPage = () => {
     const playerInfoBox = document.getElementById('playerParagraph');
     const compInfoBox = document.getElementById('compParagraph');
     compInfoBox.innerHTML = "Target the enemies ships. 5 Ships remaining"
+
     // Prepare player board, place the boats randomly
     const playersBoard = gameboard();
     playersBoard.setComputerBoard();
@@ -14,27 +15,22 @@ export const renderPage = () => {
     computersBoard.setComputerBoard();
     const compDiv = document.getElementById('computersBoard');
 
-    // Render the board of the player with random ships
-    for (let i = 0; i < 10; i++) {
-        for (let j = 0; j < 10; j++) {
-            let cell = document.createElement("div");
-            cell.classList.add("cellNull", "player", `${playersBoard.cells[i][j]}`,
-                i === 0 && 'firstRow', j === 0 && 'firstColumn');
-            cell.setAttribute("id", `p${i}${j}`);
-            playerDiv.appendChild(cell);
+
+    const populateCells = (oneDiv, player) => {
+        // Render the board of the computer
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                let cell = document.createElement("div");
+                cell.classList.add("cellNull", player, `${player === 'player' && playersBoard.cells[i][j]}`,
+                    i === 0 && 'firstRow', j === 0 && 'firstColumn');
+                cell.setAttribute("id", `${player === 'computer' ? 'c' : 'p'}${i}${j}`);
+                oneDiv.appendChild(cell);
+            }
         }
     }
 
-    // Render the board of the computer
-    for (let i = 0; i < 10; i++) {
-        for (let j = 0; j < 10; j++) {
-            let cell = document.createElement("div");
-            cell.classList.add("cellNull", "computer",
-                i === 0 && 'firstRow', j === 0 && 'firstColumn');
-            cell.setAttribute("id", `c${i}${j}`);
-            compDiv.appendChild(cell);
-        }
-    }
+    populateCells(compDiv, 'computer');
+    populateCells(playerDiv, 'player');
 
     // Store the hitted boats on the computer table
     let boats = {};
