@@ -18,9 +18,8 @@ export const renderPage = () => {
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             let cell = document.createElement("div");
-            cell.classList.add(i === 0 && 'firstRow');
-            cell.classList.add(j === 0 && 'firstColumn');
-            cell.classList.add("cellNull", "player", `${playersBoard.cells[i][j]}`);
+            cell.classList.add("cellNull", "player", `${playersBoard.cells[i][j]}`,
+                i === 0 && 'firstRow', j === 0 && 'firstColumn');
             cell.setAttribute("id", `p${i}${j}`);
             playerDiv.appendChild(cell);
         }
@@ -30,9 +29,8 @@ export const renderPage = () => {
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             let cell = document.createElement("div");
-            cell.classList.add(i === 0 && 'firstRow');
-            cell.classList.add(j === 0 && 'firstColumn');
-            cell.classList.add("cellNull", "computer");
+            cell.classList.add("cellNull", "computer",
+                i === 0 && 'firstRow', j === 0 && 'firstColumn');
             cell.setAttribute("id", `c${i}${j}`);
             compDiv.appendChild(cell);
         }
@@ -56,7 +54,7 @@ export const renderPage = () => {
     }
 
     // Add event listener to the computer board cells
-    
+
     const cellsComp = document.querySelectorAll(".computer");
     cellsComp.forEach((cell) => {
         cell.addEventListener("click", (e) => {
@@ -77,7 +75,7 @@ export const renderPage = () => {
                         showSunkenBoat(cellContent)
                     }
                     compInfoBox.innerHTML = `${sunk} ${computersBoard.stillAlive} ships remaining`
-                    
+
                 }
                 e.target.classList.remove('computer');
                 compMove();
@@ -101,7 +99,7 @@ export const renderPage = () => {
     }
     let firstShoots = [33, 35, 44, 46, 53, 55, 64, 66];
 
-    
+
     // Return cross around the first shot without the missed cells
     let crossShoot = (id) => {
         let arr = []
