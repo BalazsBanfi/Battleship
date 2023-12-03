@@ -79,8 +79,6 @@ export const renderPage = () => {
                     , 1000);
                 ;
             }
-
-
         })
     })
 
@@ -93,8 +91,6 @@ export const renderPage = () => {
                 targetArr.push(`${i}${j}`);
             }
         }
-
-
     }
     let firstShoots = [33, 35, 44, 46, 53, 55, 64, 66];
 
