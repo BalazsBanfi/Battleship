@@ -5,8 +5,8 @@
   --borderC: rgb(9, 19, 22);
   --blackCell: rgb(48, 59, 60);
   --whiteCell: rgb(129, 159, 161);
-  --pathCell: rgb(70, 149, 85);
-  --paraC: rgb(70, 149, 85);
+  --paraC: rgb(28, 39, 40);
+  --paraP: rgb(169, 159, 161);
 }
 
 /* roboto-regular - latin */
@@ -52,12 +52,18 @@ header * {
   padding: 0.5rem;
 }
 
-#pathParagraph {
-  color: var(--paraC);
-  transition-duration: 1.4s;
-  margin: 0 2rem;
+.info {
+  margin: 1rem 2rem 3rem;
+  font-size: 1.5rem;
 }
 
+#playerParagraph {
+  color: var(--paraP);
+}
+
+#compParagraph {
+  color: var(--paraC);
+}
 /**********************
 ***Container section***
 **********************/
@@ -261,5 +267,6 @@ header * {
 @media screen and (max-width: 1200px) {
   .container {
     grid-template: 1fr 1fr / 1fr;
+    gap: 0px;
   }
 }
