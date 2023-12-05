@@ -84,10 +84,7 @@ export const renderPage = () => {
 
         if (computersBoard.stillAlive === 0) {
           setTimeout(() => {
-            infoBox(
-              compInfoBox,
-              `You sunk every ship on the computer, you won!!`
-            );
+            infoBox(compInfoBox, `All enemy ships were destroyed, you won!!`);
           }, 2000);
         } else {
           setTimeout(() => {
@@ -187,7 +184,7 @@ export const renderPage = () => {
         }
       }
     };
-
+    let sunk = "";
     // After a hit calls the setHitted func
     if (lastHit) {
       removeNeighbours(lastHit);
@@ -208,34 +205,24 @@ export const renderPage = () => {
         ("0" + eHitTarget.id).slice(-2)
       );
 
-      // Check if hitted or missed the ship
+      // Check if hit or miss
       if (cellContent2 === "didNotHit" || cellContent2 === "inactive") {
         eHitTarget.classList.add("miss");
         targetedShoots[0] = [];
-        infoBox(
-          playerInfoBox,
-          `Mis! ${playersBoard.stillAlive} ships remaining`
-        );
+        sunk = "Miss!";
       } else {
         eHitTarget.classList.add("hit");
-
-        let sunk = "";
         if (playersBoard.fleet[cellContent2].isSunk()) {
-          sunk = `${cellContent2} hitted and sunken!`;
+          sunk = `${cellContent2} is hit and sunk!`;
           lastHit = false;
           targetedShoots = [];
         } else {
-          sunk = `Ship hitted!`;
+          sunk = `Hit!`;
           lastHit = ("0" + eHitTarget.id).slice(-2);
         }
-        infoBox(
-          playerInfoBox,
-          `${sunk} ${playersBoard.stillAlive} ships remaining`
-        );
       }
     } else {
-      let sunk = "";
-      // If the last shot missed, first tries the center of the board, later randomly the every second cell
+      // If the last shot missed, first tries the center of the board, later randomly every second  cell
       let attack =
         firstShoots.length > 0
           ? firstShoots[Math.floor(Math.random() * firstShoots.length)]
@@ -250,20 +237,13 @@ export const renderPage = () => {
       // Check if hitted or missed the ship
       if (cellContent === "didNotHit") {
         eTarget.classList.add("miss");
-        infoBox(
-          playerInfoBox,
-          `Mis! ${playersBoard.stillAlive} ships remaining`
-        );
+        sunk = "Miss!";
       } else {
         eTarget.classList.add("hit");
         sunk = playersBoard.fleet[cellContent].isSunk()
-          ? `${cellContent} hitted and sunken!`
-          : `Ship hitted!`;
+          ? `${cellContent} is hit and sunk!`
+          : `Hit!`;
 
-        infoBox(
-          playerInfoBox,
-          `${sunk} ${playersBoard.stillAlive} ships remaining`
-        );
         lastHit = ("0" + eTarget.id).slice(-2);
         removeNeighbours(lastHit);
         targetedShoots = crossShoot(lastHit);
@@ -276,6 +256,18 @@ export const renderPage = () => {
       firstShoots = [
         ...firstShoots.filter((x) => x != ("0" + eTarget.id).slice(-2)),
       ];
+    }
+    infoBox(
+      playerInfoBox,
+      `${sunk} ${playersBoard.stillAlive} ships remaining`
+    );
+    if (playersBoard.stillAlive === 0) {
+      setTimeout(() => {
+        infoBox(
+          playerInfoBox,
+          `The computer has destroyed all your ships, computer won!!`
+        );
+      }, 2000);
     }
   };
 };
