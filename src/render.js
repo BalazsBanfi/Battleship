@@ -65,7 +65,7 @@ export const renderPage = () => {
         let sunk = "";
         if (cellContent === "didNotHit") {
           e.target.classList.add("miss");
-          sunk = "Mis!";
+          sunk = "Miss!";
         } else {
           e.target.classList.add("hit");
           storeHittedBoats(cellContent, cell.id);
@@ -73,17 +73,27 @@ export const renderPage = () => {
             showSunkenBoat(cellContent);
           }
           sunk = computersBoard.fleet[cellContent].isSunk()
-            ? `${cellContent} hitted and sunken!`
-            : `Ship hitted!`;
+            ? `${cellContent} is hit and sunk!`
+            : `Hit!`;
         }
         infoBox(
           compInfoBox,
-          `${sunk} ${computersBoard.stillAlive} ships remaining`
+          `${sunk} ${computersBoard.stillAlive} ships remaining.`
         );
         e.target.classList.remove("computer");
-        setTimeout(() => {
-          compMove();
-        }, 750);
+
+        if (computersBoard.stillAlive === 0) {
+          setTimeout(() => {
+            infoBox(
+              compInfoBox,
+              `You sunk every ship on the computer, you won!!`
+            );
+          }, 2000);
+        } else {
+          setTimeout(() => {
+            compMove();
+          }, 750);
+        }
       }
     });
   });
