@@ -184,6 +184,25 @@ export const renderPage = () => {
         }
       }
     };
+
+    // Delete the elements from the targetedShoots array is the direction is found
+    const deleteWrongDirection = (firstShoot, currentShoot) => {
+      let shootDirection =
+        Math.abs(firstShoot - currentShoot) < 6 ? "horizontal" : "vertical";
+      for (let i = 0; i < targetedShoots.length; i++) {
+        if (targetedShoots[i][0]) {
+          if (
+            (Math.abs(targetedShoots[i][0] - firstShoot) < 6 &&
+              shootDirection === "vertical") ||
+            (Math.abs(targetedShoots[i][0] - firstShoot) > 5 &&
+              shootDirection === "horizontal")
+          ) {
+            targetedShoots[i] = [];
+          }
+        }
+      }
+    };
+
     let sunk = "";
     // After a hit calls the setHitted func
     if (lastHit) {
@@ -192,15 +211,6 @@ export const renderPage = () => {
       targetedShoots.sort((a, b) => b.length - a.length);
       let tempP = ("0" + targetedShoots[0].shift()).slice(-2);
       let eHitTarget = document.getElementById(`p${tempP}`);
-
-      // Delete the targeted cell from the 2 array
-      targetArr = [
-        ...targetArr.filter((x) => x != ("0" + eHitTarget.id).slice(-2)),
-      ];
-      firstShoots = [
-        ...firstShoots.filter((x) => x != ("0" + eHitTarget.id).slice(-2)),
-      ];
-
       let cellContent2 = playersBoard.receiveAttack(
         ("0" + eHitTarget.id).slice(-2)
       );
@@ -218,6 +228,7 @@ export const renderPage = () => {
           targetedShoots = [];
         } else {
           sunk = `Hit!`;
+          deleteWrongDirection(lastHit, ("0" + eHitTarget.id).slice(-2));
           lastHit = ("0" + eHitTarget.id).slice(-2);
         }
       }
@@ -265,7 +276,7 @@ export const renderPage = () => {
       setTimeout(() => {
         infoBox(
           playerInfoBox,
-          `The computer has destroyed all your ships, computer won!!`
+          `The computer has destroyed all your ships and won!`
         );
       }, 2000);
     }
