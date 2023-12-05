@@ -20,14 +20,21 @@
     </header>
     <div class="container">
       <div>
-        <p class="info" id="playerParagraph">Shoot! 5 Ships remaining</p>
+        <p class="info" id="playerParagraph">You have 5 ships remaining</p>
         <div id="playersBoard"></div>
         <h3>My board</h3>
       </div>
       <div>
-        <p class="info" id="compParagraph">Shoot! 5 Ships remaining</p>
+        <p class="info" id="compParagraph">Shoot now! 5 ships remaining</p>
         <div id="computersBoard"></div>
         <h3>Computer's board</h3>
+      </div>
+      <div id="controllers">
+        <form id="newGame">
+          <label for="name">Your name:</label>
+          <input type="text" id="name" name="name" value="John" />
+          <input type="submit" id="newGameBtn" value="Start new game" />
+        </form>
       </div>
     </div>
   </body>
