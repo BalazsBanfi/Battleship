@@ -65,28 +65,25 @@ export const renderPage = () => {
         let sunk = "";
         if (cellContent === "didNotHit") {
           e.target.classList.add("miss");
-          infoBox(
-            compInfoBox,
-            `Mis! ${computersBoard.stillAlive} ships remaining`
-          );
+          sunk = "Mis!";
         } else {
           e.target.classList.add("hit");
           storeHittedBoats(cellContent, cell.id);
-          sunk = computersBoard.fleet[cellContent].isSunk()
-            ? `${cellContent} hitted and sunken!`
-            : `Ship hitted!`;
           if (computersBoard.fleet[cellContent].isSunk()) {
             showSunkenBoat(cellContent);
           }
-          infoBox(
-            compInfoBox,
-            `${sunk} ${computersBoard.stillAlive} ships remaining`
-          );
+          sunk = computersBoard.fleet[cellContent].isSunk()
+            ? `${cellContent} hitted and sunken!`
+            : `Ship hitted!`;
         }
+        infoBox(
+          compInfoBox,
+          `${sunk} ${computersBoard.stillAlive} ships remaining`
+        );
         e.target.classList.remove("computer");
         setTimeout(() => {
           compMove();
-        }, 1000);
+        }, 750);
       }
     });
   });
