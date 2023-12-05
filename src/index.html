@@ -22,7 +22,7 @@
       <div>
         <p class="info" id="playerParagraph">You have 5 ships remaining</p>
         <div id="playersBoard"></div>
-        <h3>My board</h3>
+        <h3 id="myBoard">My board</h3>
       </div>
       <div>
         <p class="info" id="compParagraph">Shoot now! 5 ships remaining</p>
@@ -31,8 +31,15 @@
       </div>
       <div id="controllers">
         <form id="newGame">
-          <label for="name">Your name:</label>
-          <input type="text" id="name" name="name" value="John" />
+          <label for="name">Start new game. Your name:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value="John"
+            minlength="2"
+            maxlength="10"
+          />
           <input type="submit" id="newGameBtn" value="Start new game" />
         </form>
       </div>

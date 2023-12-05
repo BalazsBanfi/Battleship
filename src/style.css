@@ -64,6 +64,7 @@ header * {
 #compParagraph {
   color: var(--paraC);
 }
+
 /**********************
 ***Container section***
 **********************/
@@ -77,13 +78,46 @@ header * {
   position: relative;
 }
 
+/******************
+***New game form***
+*******************/
+
 #controllers {
   position: absolute;
   width: 100%;
   height: 100%;
   background-color: var(--headBg);
   opacity: 0.8;
-  display: block;
+  display: grid;
+  place-content: center;
+}
+
+#newGame {
+  opacity: 1;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--paraP);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 0px 13px 5px var(--paraP);
+}
+
+#newGame > * {
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--blackCell);
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 15px;
+}
+
+#newGameBtn {
+  cursor: pointer;
+}
+
+#newGameBtn:hover {
+  opacity: 0.75;
 }
 
 /******************
@@ -136,6 +170,10 @@ header * {
 
 .player {
   background-color: var(--whiteCell);
+}
+
+h3 {
+  font-size: 1.75rem;
 }
 
 /***********************
