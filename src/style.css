@@ -94,7 +94,7 @@ header * {
 
 #newGame {
   opacity: 1;
-  max-width: 500px;
+  max-width: 450px;
   display: flex;
   flex-direction: column;
   background-color: var(--paraP);
@@ -113,6 +113,9 @@ header * {
 }
 
 #newGameBtn {
+  color: black;
+  font-weight: 800;
+  background-color: var(--bodyBg);
   cursor: pointer;
 }
 
