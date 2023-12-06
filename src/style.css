@@ -113,6 +113,7 @@ header * {
 }
 
 #newGameBtn {
+  opacity: 1 !important;
   color: black;
   font-weight: 800;
   background-color: var(--bodyBg);
