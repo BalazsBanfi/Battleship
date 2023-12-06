@@ -29,16 +29,22 @@ The Odin Project challenges help you improve your coding skills by building real
 
 ## My process
 
--
+- In my childhood we played the game according to the rule that the ships couldn't be next to each other. I know the official rules about the placement of ships, but I implemented the game based on my previous experience.
+- I put the most energy into the gameplay and computer intelligence. I'll have to develop the look later. Also should to add some functions (allows players to place their ships, 2 player options, etc..)
+- About the intelligence of the computer:
+  - He first tries to hit the middle of the board, where the chances of ships appearing are higher
+  - After it extends the shots to the entire board
+  - It only tries to hit every second cell, since ships cannot be neighbors and even the smallest ship occupies two cells
+  - If it hits a ship, it will try to sink it
 
 ### Built with
 
 - JavaScrip
-- Multidimensional array for the fields
-- Store values in objects
+- Multidimensional array for the cell id-s
 - Git branches, git merge
-- Test Driven Develope
-- Grid, CSS pseudo, change attributes with JavaScript
+- Webpack
+- Test Driven Develope (jest)
+- Grid, CSS pseudo, change attributes and style with JavaScript
 
 ### Continued development
 

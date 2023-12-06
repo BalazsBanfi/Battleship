@@ -3,6 +3,7 @@ import { renderPage } from "./render.js";
 import "./style.css";
 
 const computer = player("computer");
+const playerOne = player("player");
 const newGame = document.getElementById("newGame");
 newGame.addEventListener("submit", (e) => {
   e.preventDefault();
