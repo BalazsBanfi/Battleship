@@ -20,7 +20,8 @@ The Odin Project challenges help you improve your coding skills by building real
 
 ### Screenshot
 
-![Desktop screenshot](./desktop.png)
+![Desktop screenshot](./src/desktop.png)
+![Mobile screenshot](./src/mobile.png)
 
 ### Links
 
@@ -30,9 +31,10 @@ The Odin Project challenges help you improve your coding skills by building real
 ## My process
 
 - In my childhood we played the game according to the rule that the ships couldn't be next to each other. I know the official rules about the placement of ships, but I implemented the game based on my previous experience.
-- I put the most energy into the gameplay and computer intelligence. I'll have to develop the look later. Also should to add some functions (allows players to place their ships, 2 player options, etc..)
+- I put the most energy into the gameplay and computer intelligence. I'll have to develop the look and should to add some functions later (allows players to place their ships, 2 player options, etc..)
+
 - About the intelligence of the computer:
-  - He first tries to hit the middle of the board, where the chances of ships appearing are higher
+  - It first tries to hit the middle of the board, where the chances of ships appearing are higher
   - After it extends the shots to the entire board
   - It only tries to hit every second cell, since ships cannot be neighbors and even the smallest ship occupies two cells
   - If it hits a ship, it will try to sink it
@@ -44,7 +46,7 @@ The Odin Project challenges help you improve your coding skills by building real
 - Git branches, git merge
 - Webpack
 - Test Driven Develope (jest)
-- Grid, CSS pseudo, change attributes and style with JavaScript
+- Modules, Grid, CSS pseudo, change attributes and style with JavaScript
 
 ### Continued development
 
@@ -54,7 +56,7 @@ I would like to be comfortable with JavaScript, responsive web design techniques
 
 - [The Odin Project](https://www.theodinproject.com/dashboard/) - High quality coding education maintained by an open source community.
 
-- [Homepage of Kevin Powell](https://www.kevinpowell.co/) - Kevin helpes a lot working with responsive techniques. I really liked his teaching style and will follow him in the future also.
+- [Homepage of Kevin Powell](https://www.kevinpowell.co/) - Kevin helps a lot working with responsive techniques. I really liked his teaching style and will follow him in the future also.
 
 ## Author
 
@@ -64,4 +66,4 @@ I would like to be comfortable with JavaScript, responsive web design techniques
 
 ## Acknowledgments
 
-Thanks for the helps to CS50, The Odin Project, freecodecamp.org, Web Dev Simplified, Kevin Powell, Frontend Mentor and many more..
+Thanks for the help CS50, The Odin Project, freecodecamp.org, Web Dev Simplified, Kevin Powell, Frontend Mentor and many more..
