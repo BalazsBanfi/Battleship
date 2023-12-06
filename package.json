@@ -1,19 +1,20 @@
 {
   "name": "battleship",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "This is a solution to the [The Odin Project Battleship project](https://www.theodinproject.com/lessons/node-path-javascript-battleship). The task is to implement the classic game: 'Battleship'.",
+  "private": true,
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack"
   },
-  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.23.2",
-    "@babel/preset-env": "^7.23.2",
-    "babel-jest": "^29.7.0",
-    "jest": "^29.7.0"
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
   }
 }
