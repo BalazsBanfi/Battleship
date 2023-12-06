@@ -11,11 +11,11 @@
 
 /* roboto-regular - latin */
 @font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-display: swap;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
-  src: url("roboto-v30-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  src: url("roboto-v30-latin-regular.woff2") format("woff2");
 }
 
 * {
@@ -129,6 +129,7 @@ header * {
 ******************/
 
 #computersBoard {
+  background-color: var(--blackCell);
   box-shadow: 0px 0px 13px 5px var(--borderC);
   margin: 2rem;
   display: grid;
@@ -143,6 +144,7 @@ header * {
 }
 
 #playersBoard {
+  background-color: var(--whiteCell);
   box-shadow: 0px 0px 13px 5px var(--borderC);
   margin: 2rem;
   display: grid;
@@ -189,7 +191,7 @@ h3 {
   background-repeat: no-repeat;
   background-size: 50%;
   background-position: center;
-  animation: append-animate 0.6s ease-in-out;
+  animation: append-animate-hit 0.6s ease-in-out;
 }
 
 .miss {
@@ -197,15 +199,33 @@ h3 {
   background-repeat: no-repeat;
   background-size: 50%;
   background-position: center;
-  animation: append-animate 0.6s ease-in-out;
+  animation: append-animate-miss 0.6s ease-in-out;
 }
 
-@keyframes append-animate {
+@keyframes append-animate-miss {
   from {
     transform: translateY(-40px);
+    opacity: 0;
+    background-color: green;
   }
   50% {
     transform: translateY(-10px);
+    background-color: green;
+  }
+  to {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes append-animate-hit {
+  from {
+    transform: translateY(-40px);
+    opacity: 0;
+    background-color: red;
+  }
+  50% {
+    transform: translateY(-10px);
+    background-color: red;
   }
   to {
     transform: translateY(0px);
